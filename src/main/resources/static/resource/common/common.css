@@ -1,0 +1,178 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+body {
+    background-color: #F5F5F5;
+}
+
+
+.jumbotron {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+.display-4 {
+    color: #2E7D32;
+}
+
+.lead {
+    color: #388E3C;
+}
+
+.form-container {
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.label-text {
+    color: black;
+}
+
+.select-bordered {
+    border-color: black;
+    color: black;
+}
+
+.btn-outline-secondary {
+    border-color: darkgreen;
+    color: darkgreen;
+}
+
+.btn-outline-secondary:hover {
+    background-color: darkgreen;
+    color: #FFFFFF;
+}
+
+
+/*.card {*/
+/*    background-color: #FFFFFF;*/
+/*    border: none;*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+
+.smaller-text {
+    color: #616161;
+}
+
+.text-secondary {
+    color: #757575;
+}
+
+.card-footer {
+    background-color: #F5F5F5;
+}
+
+.pagination .page-link {
+    color: #2E7D32;
+    border-color: #2E7D32;
+}
+
+.pagination .page-link:hover {
+    background-color: #2E7D32;
+    color: #FFFFFF;
+}
+
+.pagination .page-item.active .page-link,
+.pagination .page-link {
+    color: green;
+    background-color: transparent;
+    border-color: green;
+}
+
+.pagination .page-item.active .page-link {
+    color: white;
+
+    background-color: green;
+    border-color: green;
+
+}
+
+.pagination .page-item.disabled .page-link {
+    color: green;
+
+    background-color: white;
+    border-color: green;
+}
+
+#btnScrollToTop {
+    background: darkgreen;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+#btnScrollToTop:active {
+    background: #1B5E20;
+}
+
+/* 아이콘 스타일 */
+/*.fa-solid {*/
+/*    color: #2E7D32;*/
+/*}*/
+
+/*.fa-brands {*/
+/*    color: #2E7D32;*/
+/*}*/
+
+.fa-cloud-bolt {
+    color: gray;
+}
+
+.fa-user-group {
+    color: grey;
+}
+
+.fa-arrow-up-z-a {
+    color: #2E7D32;
+}
+
+.material-icons {
+    color: #FFFFFF;
+}
+
+.container.smaller-text {
+    display: flex;
+    flex-direction: row-reverse;
+
+}
+
+.div.div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*.containerIn {*/
+/*    display: flex;*/
+/*    justify-content: start;*/
+/*}*/
+
+.container1 {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.data {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-basis: 150px;
+}
+
+/*.container2 {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
+/*.viewr1 {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
+.viewr2 {
+    display: flex;
+
+}
