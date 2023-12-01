@@ -1,6 +1,7 @@
-package com.ll.synergarette.boundedContext.User.entity;
+package com.ll.synergarette.boundedContext.member.entity;
 
 
+import com.ll.synergarette.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class Member {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -44,6 +45,11 @@ public class User {
 
     @Column(unique = true) // email 중복 안됨
     private String email;
+
+    @OneToMany(mappedBy = "writeUserId", cascade = CascadeType.REMOVE)
+    List<Review> writeReviewList; // 멤버가 쓴 리뷰 목록
+
+
 
     public List<? extends GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
