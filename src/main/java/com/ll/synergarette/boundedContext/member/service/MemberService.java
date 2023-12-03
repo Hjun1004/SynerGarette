@@ -1,5 +1,6 @@
 package com.ll.synergarette.boundedContext.member.service;
 
+import com.ll.synergarette.base.rsData.RsData;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,18 @@ public class MemberService {
     }
 
 
+    public RsData<Member> join(String username, String password) {
 
+        if(findByUsername(username).isPresent()) return RsData.of("F-1", "이미 존재 하는 ID입니다.");
+
+        Member member = Member
+                .builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .build();
+
+        memberRepository.save(member);
+
+        return RsData.of("S-1", "회원가입이 완료되었습니다.");
+    }
 }
