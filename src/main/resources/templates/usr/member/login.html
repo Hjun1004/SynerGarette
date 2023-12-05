@@ -64,6 +64,11 @@
     </h1>
 
     <form th:action method="POST" class="flex flex-col gap-6" onsubmit="LoginForm__submit(this); return false;">
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">
+                사용자ID 또는 비밀번호를 확인해 주세요.
+            </div>
+        </div>
         <div class="form-control">
           <label class="label">
                         <span class="label-text">
@@ -89,10 +94,11 @@
           <span class="normal-case" th:text="로그인"></span>
         </button>
 
-<!--      <a href="/oauth2/authorization/kakao" class="btn btn-block btn-outline gap-1">-->
-<!--        <i class="fa-solid fa-comment text-[color:#ffe812]"></i>-->
-<!--        <span class="normal-case" th:text="#{c.startWithKakao}"></span>-->
-<!--      </a>-->
+        <a href="/oauth2/authorization/kakao" class="btn btn-block btn-outline gap-1">
+            <i class="fa-solid fa-comment text-[color:#ffe812]"></i>
+            <span class="normal-case" th:text="'카카오로 시작하기'"></span>
+        </a>
+
 
 <!--      <a href="/oauth2/authorization/naver" class="btn btn-block btn-outline gap-1">-->
 <!--        <i class="fa-solid fa-n text-[color:#2DB400]"></i>-->
@@ -122,6 +128,9 @@
 
 
     </form>
+
+
+
   </div>
 </main>
 </body>

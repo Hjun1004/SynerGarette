@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.awt.datatransfer.Clipboard;
 import java.util.Optional;
 
 @Service
@@ -25,18 +27,42 @@ public class MemberService {
     }
 
 
-    public RsData<Member> join(String username, String password) {
-
+    @Transactional
+    public RsData<Member> join(String providetTypeCode, String username, String password){
         if(findByUsername(username).isPresent()) return RsData.of("F-1", "이미 존재 하는 ID입니다.");
+
+        // 소셜 로그인을 통한 회원가입에서는 비번이 없다.
+        if (StringUtils.hasText(password)) {
+            password = passwordEncoder.encode(password);
+        }
 
         Member member = Member
                 .builder()
                 .username(username)
-                .password(passwordEncoder.encode(password))
+                .password(password)
+                .providerTypeCode(providetTypeCode)
                 .build();
 
         memberRepository.save(member);
 
-        return RsData.of("S-1", "회원가입이 완료되었습니다.");
+        return RsData.of("S-1", "회원가입이 완료되었습니다.", member);
+    }
+
+
+    @Transactional
+    public RsData<Member> join(String username, String password) {
+
+        return join("common",username, password);
+    }
+
+    @Transactional
+    public RsData<Member> whenSocialLogin(String providerTypeCode, String username) {
+        Optional<Member> opMember = findByUsername(username);
+
+        if(opMember.isPresent()){
+            return RsData.of("S-1", "로그인 되었습니다.", opMember.get());
+        }
+
+        return join(providerTypeCode,username, "");
     }
 }

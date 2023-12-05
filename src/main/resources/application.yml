@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: dev
+    include: secret
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
@@ -14,6 +15,22 @@ spring:
     url: jdbc:mariadb://127.0.0.1:3306/synergarette__dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
     username: root
     password:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            scope:
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            redirect-uri: '${custom.site.baseUrl}/{action}/oauth2/code/{registrationId}'
+            client-authentication-method: client_secret_post
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
   jpa:
     hibernate:
       ddl-auto: create
@@ -22,6 +39,12 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+logging:
+  level:
+    root: INFO
+    com.ll.synergarette: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.orm.jdbc.extract: TRACE
 autoconfigure:
   exclude=org:
     springframework:
@@ -29,3 +52,6 @@ autoconfigure:
         autoconfigure:
           session:
             SessionAutoConfiguration:logging:
+custom:
+  site:
+    baseUrl: http://localhost:8080/

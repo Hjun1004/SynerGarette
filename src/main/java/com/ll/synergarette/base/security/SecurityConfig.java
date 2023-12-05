@@ -46,21 +46,27 @@ public class SecurityConfig {
 //                                .loginProcessingUrl("/usr/member/login")
                                 .successHandler(authenticationSuccessHandler) // 꼭 추가해주세요!
                 )
+                .oauth2Login(
+                        oauth2Login -> oauth2Login
+                                .loginPage("/usr/member/login")
+                                .successHandler(authenticationSuccessHandler)
+                )
                 .logout(
                         logout -> logout
                                 .logoutUrl("/usr/member/logout")
+                                .logoutSuccessUrl("/")
                 );
 
         return http.build();
     }
 
-    @Bean
-    public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() {
-        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-        successHandler.setTargetUrlParameter("targetUrl");
-        successHandler.setDefaultTargetUrl("/"); // 로그인 성공 후 이전 페이지가 없을 경우 리디렉션할 기본 경로
-        return successHandler;
-    }
+//    @Bean
+//    public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() {
+//        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+//        successHandler.setTargetUrlParameter("targetUrl");
+//        successHandler.setDefaultTargetUrl("/"); // 로그인 성공 후 이전 페이지가 없을 경우 리디렉션할 기본 경로
+//        return successHandler;
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
