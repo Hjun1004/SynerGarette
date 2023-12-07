@@ -30,6 +30,10 @@ spring:
             client-name: Naver
             authorization-grant-type: authorization_code
             redirect-uri: '${custom.site.baseUrl}/{action}/oauth2/code/{registrationId}'
+          google:
+            scope: profile
+            redirect-uri: '${custom.site.baseUrl}/{action}/oauth2/code/{registrationId}'
+            client-name: Google
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
