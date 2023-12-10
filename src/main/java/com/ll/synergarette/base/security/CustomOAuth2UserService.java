@@ -37,19 +37,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String username ;
         if(providerTypeCode.equals("NAVER")){
+            // 소셜 로그인 한 oAuth2User 정보에서 네이버만의 response 정보를 가져오고 그 안에서 id 정보만 빼와서 username에 활용
             OAuth2NaverUserInfo oAuth2NaverUserInfo = new OAuth2NaverUserInfo((Map<String, Object>) oAuth2User.getAttributes().get("response"));
             String naverOauthId = oAuth2NaverUserInfo.getId();
             username = providerTypeCode + "__%s".formatted(naverOauthId);
-        }else{
+        }
+        else{
             username = providerTypeCode + "__%s".formatted(oauthId);
         }
-
 
 
         Member member = memberService.whenSocialLogin(providerTypeCode, username).getData();
 
         return new CustomOAuth2User(member.getUsername(), member.getPassword(), member.getGrantedAuthorities());
-
     }
 }
 
@@ -67,4 +67,5 @@ class CustomOAuth2User extends User implements OAuth2User{
     public String getName(){
         return getUsername();
     }
+
 }
