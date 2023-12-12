@@ -1,15 +1,81 @@
 <html layout:decorate="~{usr/layout/layout.html}">
 
 <head>
-    <title>Title</title>
+    <title>시너가렛</title>
 
+    <!-- Editor's Style -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+    <!-- 보기 편하게 CSS추가해주었습니다. -->
+    <style>
+        * {
+            text-align:  center;
+        }
+        #editor {
+            /* border : 1px solid; */
+            width : 50%;
+            margin : 0 auto;
+        }
+    </style>
 </head>
 
 <body>
 
 <main layout:fragment="main">
-    제품 생성 페이지
-    제품 생성 페이지 2줄 입니다.
+    <div class="mx-auto max-w-2xl py-8 sm:py-8 lg:py-8">
+<!--        <div class="hidden sm:mb-8 sm:flex sm:justify-center">-->
+<!--            <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">-->
+<!--                Announcing our next round of funding. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div>
+            <div class=" text-center text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">제품의 정보를 입력해주세요</div>
+<!--            <p class="mt-6 text-lg leading-8 text-gray-600">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>-->
+<!--            <div class="mt-10 flex items-center justify-center gap-x-6">-->
+<!--                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>-->
+<!--                <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></a>-->
+<!--            </div>-->
+        </div>
+    </div>
+
+    <form th:action method="POST" th:object="${goodsCreateForm}">
+        <div th:replace="~{adm/goods/form_errors :: formErrorsFragment}"></div>
+
+        <div>
+            <div class="mb-3">
+                <label for="goodsName" class="form-label">제품 명</label>
+                <input required maxlength="200" autocomplete="off" type="text" placeholder="제목(200자 이하)"
+                       class="form-control" th:field="*{goodsName}">
+                <!--
+                th:field="*{subject}" ==> id="subject" name="subject" th:value="*{subject}"
+                -->
+
+
+            </div>
+
+            <!-- 에디터를 적용할 요소 (컨테이너) -->
+            <div id="editor">
+
+            </div>
+
+        </div>
+    </form>
+
+    <!-- ToastUI 에디터 불러오기 -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+    <!-- TUI 에디터 JS CDN -->
+    <script>
+                const editor = new toastui.Editor({
+                    el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
+                    height: '500px',                        // 에디터 영역의 높이 값 (OOOpx || auto)
+                    initialEditType: 'wysiwyg',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+                    initialValue: '내용을 입력해 주세요.',     // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+                    previewStyle: 'vertical'                // 마크다운 프리뷰 스타일 (tab || vertical)
+                });
+            </script>
+
+
 </main>
 
 </body>
