@@ -41,6 +41,9 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation' // validation 넣기
 
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
+
+
 
 
 }

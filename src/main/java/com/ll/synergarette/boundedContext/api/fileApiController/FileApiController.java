@@ -16,14 +16,13 @@ public class FileApiController {
     // 파일을 업로드할 디렉터리 경로
     private final String uploadDir = Paths.get("C:", "tui-editor", "upload").toString();
 
-
     /**
      * 에디터 이미지 업로드
      * @param image 파일 객체
      * @return 업로드된 파일명
      */
 
-    @PostMapping("/image-upload")
+//    @PostMapping("/image-upload")
     public String uploadEditorImage(@RequestParam final MultipartFile image){
         System.out.println(uploadDir);
         if (image.isEmpty()) {
