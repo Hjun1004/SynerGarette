@@ -52,15 +52,43 @@
                 th:field="*{subject}" ==> id="subject" name="subject" th:value="*{subject}"
                 -->
             </div>
-
         </div>
+
+        <div>
+            <div class="mb-3">
+                <label for="goodsPrice" class="form-label">제품 명</label>
+                <input required maxlength="200" autocomplete="off" type="text" placeholder="가격(필수 사항)"
+                       class="form-control" th:field="*{goodsPrice}">
+                <!--
+                th:field="*{subject}" ==> id="subject" name="subject" th:value="*{subject}"
+                -->
+            </div>
+        </div>
+
+        <!--     에디터를 적용할 요소 (컨테이너)-->
+        <div>
+            <div id="editor">
+
+            </div>
+        </div>
+
+        <div>
+            <!-- 에디터의 내용을 저장할 감춰진 textarea -->
+            <textarea id="editorContent" type="text" th:field="*{goodsDetail}" name="goodsDetail" style="display: none;"></textarea>
+        </div>
+
+
+        <!-- 버튼 클릭 시 에디터의 내용을 감춰진 textarea에 설정하고, 폼을 서버로 제출 -->
+<!--        <button type="button" >저장하기</button>-->
+
+
+
+        <button id="submitBtn" type="submit" class="btn btn-success my-2">저장하기</button>
     </form>
 
-
-<!--     에디터를 적용할 요소 (컨테이너)-->
-    <div id="editor">
-
-    </div>
+<!--    <div>-->
+<!--        <input type="button" id="editorGetHtml" value="HTML보기">-->
+<!--    </div>-->
 
 <!--     ToastUI 에디터 불러오기-->
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -70,7 +98,7 @@
         const editor = new toastui.Editor({
             el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
             height: '800px',                        // 에디터 영역의 높이 값 (OOOpx || auto)
-            initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+            initialEditType: 'wysiwyg',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
             initialValue: '내용을 입력해 주세요.',     // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
             previewStyle: 'vertical',                // 마크다운 프리뷰 스타일 (tab || vertical)
             /* start of hooks */
@@ -92,11 +120,10 @@
 
                         // 3. 컨트롤러에서 전달받은 디스크에 저장된 파일명
                         const filename = await response.text();
-                        console.log('서버에 저장된 파일명 : ', filename);
+
 
                         // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
-                        const imageUrl = `/tui-editor/image-print?filename=${filename}`;
-                        callback(imageUrl, 'image alt attribute');
+                        callback(filename, 'image alt attribute');
 
                     } catch (error) {
                         console.error('업로드 실패 : ', error);
@@ -105,9 +132,15 @@
             }
             /* end of hooks */
         });
+
+        // 버튼 클릭 시 에디터의 내용을 textarea에 설정하고, 폼을 서버로 제출
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const editorContent = editor.getHTML(); // 또는 editor.getHtml() 사용 가능
+            document.getElementById('editorContent').innerText = editorContent;
+            document.querySelector('form').submit();
+        });
     </script>
 
-    </script>
 
 
 
