@@ -58,7 +58,7 @@ public class AdminGoodsController {
 
         RsData rsdata = RsData.of("S-1", "상품 등록 성공");
 
-        return rq.redirectWithMsg("/adm/home/main", rsdata.getMsg());
+        return rq.redirectWithMsg("/goods/list", rsdata.getMsg());
     }
 
 }

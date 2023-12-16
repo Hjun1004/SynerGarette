@@ -118,7 +118,7 @@
                             body : formData,
                         });
 
-                        // 3. 컨트롤러에서 전달받은 디스크에 저장된 파일명
+                        // 3. 컨트롤러에서 전달받은 s3에 저장된 파일명
                         const filename = await response.text();
 
 
@@ -140,8 +140,6 @@
             document.querySelector('form').submit();
         });
     </script>
-
-
 
 
 </main>
