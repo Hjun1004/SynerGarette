@@ -1,6 +1,8 @@
 package com.ll.synergarette.base.initData;
 
 
+import com.ll.synergarette.boundedContext.goods.entity.Goods;
+import com.ll.synergarette.boundedContext.goods.service.GoodsService;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +25,8 @@ public class NotProd {
     private String naverDevUserOAUthId;
     @Bean
     CommandLineRunner initData(
-            MemberService memberService
+            MemberService memberService,
+            GoodsService goodsService
     ){
         return new CommandLineRunner() {
             @Override
@@ -35,6 +38,14 @@ public class NotProd {
                 Member memberByKakao = memberService.whenSocialLogin("KAKAO", "KAKAO__%s".formatted(kakaoDevUserOAuthId)).getData();
                 Member memberByGoogle = memberService.whenSocialLogin("GOOGLE", "GOOGLE__%s".formatted(googleDevUserOAuthId)).getData();
                 Member memberByNaver = memberService.whenSocialLogin("NAVER", "NAVER__%s".formatted(naverDevUserOAUthId)).getData();
+
+                Goods firstGoodsItem = goodsService.createGoodsItem("첫 번째 상품", 10000L, "<h1>내용을 입력해 주세요.</h1><p>sadfsdaf</p><p>asdfasdf</p><p>asdfasdfsdafasf</p><p><br></p><p><br></p>");
+                Goods secondGoodsItem = goodsService.createGoodsItem("두 번째 상품", 20000L, "<h1>두 번째 상품입니다.</h1><p>두 번째 소개할 상품은 이거에용.</p><p>asdfasdf</p><p><br></p><p><br></p>");
+                Goods thirdGoodsItem = goodsService.createGoodsItem("세 번째 상품", 20000L, "<h1>세 번째 상품입니다.</h1><p>세 번째 소개할 상품은 이거에용.</p><p>asdfasdf</p><p><br></p><p><br></p>");
+                Goods forthGoodsItem = goodsService.createGoodsItem("네 번째 상품", 20000L, "<h1>네 번째 상품입니다.</h1><p>세 번째 소개할 상품은 이거에용.</p><p>asdfasdf</p><p><br></p><p><br></p>");
+                Goods fifthGoodsItem = goodsService.createGoodsItem("다섯 번째 상품", 20000L, "<h1>다섯 번째 상품입니다.</h1><p>세 번째 소개할 상품은 이거에용.</p><p>asdfasdf</p><p><br></p><p><br></p>");
+                Goods sixthGoodsItem = goodsService.createGoodsItem("여섯 번째 상품", 20000L, "<h1>여섯 번째 상품입니다.</h1><p>세 번째 소개할 상품은 이거에용.</p><p>asdfasdf</p><p><br></p><p><br></p>");
+
             }
         };
     }

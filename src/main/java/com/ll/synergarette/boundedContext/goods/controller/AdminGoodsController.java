@@ -53,7 +53,7 @@ public class AdminGoodsController {
             return "adm/goods/create";
         }
 
-        Goods goods = goodsService.createGoodsItem(goodsCreateForm.getGoodsName(), goodsCreateForm.getGoodsPrice(), goodsCreateForm.getGoodsDetail(), htmlContent);
+        Goods goods = goodsService.createGoodsItem(goodsCreateForm.getGoodsName(), goodsCreateForm.getGoodsPrice(), goodsCreateForm.getGoodsDetail());
 
 
         RsData rsdata = RsData.of("S-1", "상품 등록 성공");

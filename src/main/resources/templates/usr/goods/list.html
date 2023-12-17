@@ -9,28 +9,43 @@
 
 <main layout:fragment="main">
 
-  <h1 class="mb-4" th:if="${!#lists.isEmpty(goodsList)}">
-    <i class="fa-solid fa-list-ol"></i>
-    상품목록
-  </h1>
 
-  <div th:if="${!#lists.isEmpty(goodsList)}">
-    <div th:each="goodsItem : ${goodsList}">
-      <div class="card w-24 bg-base-100 shadow-xl border rounded-lg">
-        <div class="card-body">
-          <h2 class="card-title" th:text="${goodsItem.goodsName}"></h2>
 
-          <div th:text="${goodsItem.goodsPrice}"></div>
+  <div class="container mx-5">
+    <h1 class="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+    <p></p>
+    <br>
 
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+    <h1 class="mb-4" th:if="${!#lists.isEmpty(goodsList)}">
+      <i class="fa-solid fa-list-ol"></i>
+      상품목록
+    </h1>
+
+
+      <div th:if="${!#lists.isEmpty(goodsList)}">
+        <div class="flex flex-row flex-wrap">
+          <div th:each="goodsItem : ${goodsList}" class="mt-6" style="width: 25%;">
+            <div class="card bg-base-100 shadow-xl border mt-5">
+              <figure></figure>
+              <div class="card-body">
+                <h2 class="card-title" th:text="${goodsItem.goodsName}"></h2>
+
+                <div th:text="${goodsItem.goodsPrice}"></div>
+
+                <div class="card-actions justify-end">
+                  <button class="btn btn-primary">Buy Now</button>
+                </div>
+
+              </div>
+            </div>
           </div>
-
         </div>
-      </div>
-    </div>
-  </div>
 
+      </div>
+
+  </div>
 
 </main>
 

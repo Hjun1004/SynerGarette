@@ -18,7 +18,7 @@ public class GoodsService {
     private final GoodsRepository goodsRepository;
 
     @Transactional
-    public Goods createGoodsItem(String goodsName, Long goodsPrice, String goodsDetail, String htmlContent) {
+    public Goods createGoodsItem(String goodsName, Long goodsPrice, String goodsDetail) {
         Goods goods = Goods.builder()
                 .goodsName(goodsName)
                 .goodsPrice(goodsPrice)
