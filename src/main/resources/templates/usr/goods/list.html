@@ -8,12 +8,30 @@
 <body>
 
 <main layout:fragment="main">
-  <div>
-    시너가렛 상품목록 입니다.
+
+  <h1 class="mb-4" th:if="${!#lists.isEmpty(goodsList)}">
+    <i class="fa-solid fa-list-ol"></i>
+    상품목록
+  </h1>
+
+  <div th:if="${!#lists.isEmpty(goodsList)}">
+    <div th:each="goodsItem : ${goodsList}">
+      <div class="card w-24 bg-base-100 shadow-xl border rounded-lg">
+        <div class="card-body">
+          <h2 class="card-title" th:text="${goodsItem.goodsName}"></h2>
+
+          <div th:text="${goodsItem.goodsPrice}"></div>
+
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary">Buy Now</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    시너가렛 상품목록 2줄 입니다.
-  </div>
+
+
 </main>
 
 </body>

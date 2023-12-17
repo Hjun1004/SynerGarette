@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.tags.Param;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,5 +28,9 @@ public class GoodsService {
         goodsRepository.save(goods);
 
         return goods;
+    }
+
+    public List<Goods> findAllGoods (){
+        return goodsRepository.findAll();
     }
 }
