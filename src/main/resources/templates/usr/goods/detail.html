@@ -1,0 +1,82 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+  <title>Title</title>
+
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
+
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@3.0.7/marked.min.js"></script>
+
+</head>
+
+<body>
+
+<main layout:fragment="main">
+
+  <div class="container mx-5">
+    <div th:text="${goodsItem.goodsName}"></div>
+
+    <div th:text="${goodsItem.goodsPrice}"></div>
+
+<!--    <div th:utext="${@commonUtil.markdown(goodsItem.goodsDetail)}"></div>-->
+
+<!--    <div id="markdownContainer"></div>-->
+
+
+    <div id="viewer"></div>
+
+<!--    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>-->
+    <script src="https://uicdn.toast.com/editor/3.0.2/toastui-editor-all.min.js"></script>
+
+<!--    <script>-->
+<!--    const viewer = new toastui.Editor({-->
+<!--      el: document.querySelector('#viewer'),-->
+<!--      height: '600px',-->
+<!--      initialValue: '[[${goodsItem.goodsDetail}]]'-->
+<!--    });-->
+
+<!--  </script>-->
+
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+
+    <script>
+      const goodsDetail = `[[${goodsItem.goodsDetail}]]`;
+
+      const turndownService = new TurndownService();
+      const markdownContent = turndownService.turndown(goodsDetail);
+
+      const viewer = new toastui.Editor.factory({
+        el: document.querySelector('#viewer'),
+        viewer: true,
+        usageStatistics: false,
+        initialValue: '# hello'
+      });
+
+
+      // 마크다운을 HTML로 변환하여 뷰어에 주입
+      document.querySelector('#viewer').innerHTML = goodsDetail;
+    </script>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      var goodsDetailHtml = /*[[${goodsItem.goodsDetail}]]*/ ''; // 서버에서 Thymeleaf로 전달받은 변수
+
+      // Convert HTML to Markdown using marked.js
+      var goodsDetailMarkdown = marked(goodsDetailHtml);
+
+      // Render the Markdown content in the container
+      document.getElementById('markdownContainer').innerHTML = goodsDetailMarkdown;
+      /*]]>*/
+  </script>
+
+
+
+  </div>
+
+</main>
+
+</body>
+</html>

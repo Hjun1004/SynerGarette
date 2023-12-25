@@ -45,6 +45,7 @@ dependencies {
 	implementation 'com.amazonaws:aws-java-sdk-s3'
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
 
+	implementation 'org.commonmark:commonmark:0.21.0'
 
 
 

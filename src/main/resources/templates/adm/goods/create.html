@@ -25,18 +25,8 @@
 
 <main layout:fragment="main">
     <div class="mx-auto max-w-2xl py-8 sm:py-8 lg:py-8">
-<!--        <div class="hidden sm:mb-8 sm:flex sm:justify-center">-->
-<!--            <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">-->
-<!--                Announcing our next round of funding. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>-->
-<!--            </div>-->
-<!--        </div>-->
         <div>
             <div class=" text-center text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">제품의 정보를 입력해주세요</div>
-<!--            <p class="mt-6 text-lg leading-8 text-gray-600">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>-->
-<!--            <div class="mt-10 flex items-center justify-center gap-x-6">-->
-<!--                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>-->
-<!--                <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></a>-->
-<!--            </div>-->
         </div>
     </div>
 
@@ -56,7 +46,7 @@
 
         <div>
             <div class="mb-3">
-                <label for="goodsPrice" class="form-label">제품 명</label>
+                <label for="goodsPrice" class="form-label">제품 가격</label>
                 <input required maxlength="200" autocomplete="off" type="text" placeholder="가격(필수 사항)"
                        class="form-control" th:field="*{goodsPrice}">
                 <!--
@@ -83,12 +73,12 @@
 
 
 
-        <button id="submitBtn" type="submit" class="btn btn-success my-2">저장하기</button>
+        <button type="submit" id="submitBtn" class="btn btn-success my-2">저장하기</button>
     </form>
 
-<!--    <div>-->
-<!--        <input type="button" id="editorGetHtml" value="HTML보기">-->
-<!--    </div>-->
+    <div>
+        <input type="button" id="editorGetHtml" value="HTML보기">
+    </div>
 
 <!--     ToastUI 에디터 불러오기-->
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -135,9 +125,13 @@
 
         // 버튼 클릭 시 에디터의 내용을 textarea에 설정하고, 폼을 서버로 제출
         document.getElementById('submitBtn').addEventListener('click', () => {
-            const editorContent = editor.getHTML(); // 또는 editor.getHtml() 사용 가능
+            const editorContent = editor.getMarkdown(); // 또는 editor.getHTML() or getMarkdown() 사용 가능
             document.getElementById('editorContent').innerText = editorContent;
             document.querySelector('form').submit();
+        });
+
+        document.getElementById('editorGetHtml').addEventListener('click', () => {
+            console.log(editor.getHTML());
         });
     </script>
 

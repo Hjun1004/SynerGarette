@@ -17,7 +17,6 @@ public class GoodsCreateForm {
     @Size(max = 65, message = "제목을 200자 이하로 설정해주세요.") // 최대 200까지 가능하다.
     private String goodsName;
 
-    @Size(max = 100000, message = "제목을 100000자 이하로 설정해주세요.")
     private String goodsDetail;
 
     @NotNull(message = "가격은 필수항목입니다.")

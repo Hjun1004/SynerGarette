@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.tags.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +33,9 @@ public class GoodsService {
 
     public List<Goods> findAllGoods (){
         return goodsRepository.findAll();
+    }
+
+    public Optional<Goods> findById(Long id) {
+        return goodsRepository.findById(id);
     }
 }

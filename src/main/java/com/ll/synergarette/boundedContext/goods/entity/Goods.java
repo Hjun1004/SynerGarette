@@ -39,6 +39,7 @@ public class Goods {
 
     private Long goodsPrice;
 
+    @Column(columnDefinition = "TEXT") // 칼럼의 글자수 제한 없애기
     private String goodsDetail;
 
     @OneToMany(mappedBy = "goodsItem", cascade = CascadeType.REMOVE)
