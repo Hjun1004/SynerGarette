@@ -19,6 +19,7 @@
     </style>
 
 
+
 </head>
 
 <body>
@@ -55,26 +56,72 @@
             </div>
         </div>
 
-        <!--     에디터를 적용할 요소 (컨테이너)-->
         <div>
-            <div id="editor">
+            <textarea name="contents" class="form-control" id="contents" th:field="*{goodsDetail}"></textarea>
+            <script>
+                var ckeditor_config = {
+                    filebrowserUploadMethod :'form',
+                    filebrowserUploadUrl: "/adm/goods/create",
+                    extraPlugins : 'autogrow',
+                        };
 
-            </div>
+                CKEDITOR.replace("contents", ckeditor_config);
+            </script>
         </div>
 
-        <div>
-            <!-- 에디터의 내용을 저장할 감춰진 textarea -->
-            <textarea id="editorContent" type="text" th:field="*{goodsDetail}" name="goodsDetail" style="display: none;"></textarea>
-        </div>
 
 
-        <!-- 버튼 클릭 시 에디터의 내용을 감춰진 textarea에 설정하고, 폼을 서버로 제출 -->
-<!--        <button type="button" >저장하기</button>-->
-
-
-
-        <button type="submit" id="submitBtn" class="btn btn-success my-2">저장하기</button>
+        <button type="submit" class="btn btn-success my-2">저장하기</button>
     </form>
+
+
+
+<!--    아래는 toast ui 에디터 사용-->
+<!--    <form th:action method="POST" th:object="${goodsCreateForm}">-->
+<!--        <div th:replace="~{adm/goods/form_errors :: formErrorsFragment}"></div>-->
+
+<!--        <div>-->
+<!--            <div class="mb-3">-->
+<!--                <label for="goodsName" class="form-label">제품 명</label>-->
+<!--                <input required maxlength="200" autocomplete="off" type="text" placeholder="제목(200자 이하)"-->
+<!--                       class="form-control" th:field="*{goodsName}">-->
+<!--                &lt;!&ndash;-->
+<!--                th:field="*{subject}" ==> id="subject" name="subject" th:value="*{subject}"-->
+<!--                &ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            <div class="mb-3">-->
+<!--                <label for="goodsPrice" class="form-label">제품 가격</label>-->
+<!--                <input required maxlength="200" autocomplete="off" type="text" placeholder="가격(필수 사항)"-->
+<!--                       class="form-control" th:field="*{goodsPrice}">-->
+<!--                &lt;!&ndash;-->
+<!--                th:field="*{subject}" ==> id="subject" name="subject" th:value="*{subject}"-->
+<!--                &ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash;     에디터를 적용할 요소 (컨테이너)&ndash;&gt;-->
+<!--        <div>-->
+<!--            <div id="editor">-->
+
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            &lt;!&ndash; 에디터의 내용을 저장할 감춰진 textarea &ndash;&gt;-->
+<!--            <textarea id="editorContent" type="text" th:field="*{goodsDetail}" name="goodsDetail" style="display: none;"></textarea>-->
+<!--        </div>-->
+
+
+<!--        &lt;!&ndash; 버튼 클릭 시 에디터의 내용을 감춰진 textarea에 설정하고, 폼을 서버로 제출 &ndash;&gt;-->
+<!--&lt;!&ndash;        <button type="button" >저장하기</button>&ndash;&gt;-->
+
+
+
+<!--        <button type="submit" id="submitBtn" class="btn btn-success my-2">저장하기</button>-->
+<!--    </form>-->
 
     <div>
         <input type="button" id="editorGetHtml" value="HTML보기">
