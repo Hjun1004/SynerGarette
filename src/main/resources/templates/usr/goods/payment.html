@@ -10,6 +10,7 @@
 
 <main layout:fragment="main">
   <div class="mt-3 text-2xl" th:text="|총 주문금액: ${goodsItem.goodsName}|"></div>
+
   <div class="mt-3 text-2xl" th:text="|총 주문금액: ${goodsItem.goodsPrice} 원|"></div>
 
   <div class="mt-3"></div>
@@ -21,7 +22,7 @@
 <!--  <button class="btn btn-neutral mb-3" id="payment-button"> 결제하기</button>-->
 
 
-  <script>
+  <script th:inline="javascript">
     var clientKey = [[${tossPaymentConfig.testClientKey}]]
     var tossPayments = TossPayments(clientKey)
 
@@ -29,9 +30,7 @@
       tossPayments.requestPayment("카드", {
         amount: [[${goodsItem.goodsPrice}]],
         orderId: 'AD8aZDpbzXs4EQa-UkIX6',
-        orderName: '토스 티셔츠 외 2건',
-        customerEmail: 'customer123@gmail.com',
-        customerName: '김토스',
+        orderName: [[${goodsItem.goodsName}]],
         successUrl: 'http://localhost:8080/success',
         failUrl: 'http://localhost:8080/fail'
       })

@@ -47,6 +47,8 @@ dependencies {
 
 	implementation 'org.commonmark:commonmark:0.21.0'
 
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
 
 
 }
