@@ -69,3 +69,5 @@ autoconfigure:
 custom:
   site:
     baseUrl: http://localhost:8080/
+
+

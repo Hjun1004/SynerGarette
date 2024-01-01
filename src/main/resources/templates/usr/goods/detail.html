@@ -17,16 +17,27 @@
 <main layout:fragment="main">
 
   <div class="container mx-5">
+
     <div th:text="${goodsItem.goodsName}"></div>
 
-    <div th:text="${goodsItem.goodsPrice}"></div>
+    <div class="mb-3" th:text="${goodsItem.goodsPrice}"></div>
+
+    <a class="btn btn-neutral" th:href="@{|/payment/goods/${goodsItem.id}|}">결제하기</a>
+
+<!--    <div id="readEditor">-->
+<!--      ${uploadFile.test_content}-->
+<!--    </div>-->
+
+    <div th:utext="${goodsItem.goodsDetail}"></div>
+
+
 
 <!--    <div th:utext="${@commonUtil.markdown(goodsItem.goodsDetail)}"></div>-->
 
 <!--    <div id="markdownContainer"></div>-->
 
 
-    <div id="viewer"></div>
+<!--    <div id="viewer"></div>-->
 
 <!--    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>-->
     <script src="https://uicdn.toast.com/editor/3.0.2/toastui-editor-all.min.js"></script>
@@ -39,6 +50,24 @@
 <!--    });-->
 
 <!--  </script>-->
+
+    <script>
+      ClassicEditor
+      .create( document.querySelector( '#readEditor' ))
+
+      .then( editor => {
+          window.editor = editor;
+          editor.isReadOnly = true;
+          const toolbarElement = editor.ui.view.toolbar.element;
+          toolbarElement.style.display = 'none';
+      } )
+      .catch( error => {
+          console.error( 'Oops, something went wrong!' );
+          console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+          console.warn( 'Build id: g64ljk55ssvc-goqlohse75uw' );
+          console.error( error );
+      } );
+    </script>
 
     <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
 

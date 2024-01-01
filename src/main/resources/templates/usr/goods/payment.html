@@ -1,0 +1,46 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+  <title>시너가렛</title>
+
+  <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+</head>
+
+<body>
+
+<main layout:fragment="main">
+  <div class="mt-3 text-2xl" th:text="|총 주문금액: ${goodsItem.goodsName}|"></div>
+  <div class="mt-3 text-2xl" th:text="|총 주문금액: ${goodsItem.goodsPrice} 원|"></div>
+
+  <div class="mt-3"></div>
+
+  <div>
+    <button class="btn btn-neutral mb-3" onclick="payment();">결제하기</button>
+  </div>
+
+<!--  <button class="btn btn-neutral mb-3" id="payment-button"> 결제하기</button>-->
+
+
+  <script>
+    var clientKey = [[${tossPaymentConfig.testClientKey}]]
+    var tossPayments = TossPayments(clientKey)
+
+    function payment(){
+      tossPayments.requestPayment("카드", {
+        amount: [[${goodsItem.goodsPrice}]],
+        orderId: 'AD8aZDpbzXs4EQa-UkIX6',
+        orderName: '토스 티셔츠 외 2건',
+        customerEmail: 'customer123@gmail.com',
+        customerName: '김토스',
+        successUrl: 'http://localhost:8080/success',
+        failUrl: 'http://localhost:8080/fail'
+      })
+    }
+  </script>
+
+
+
+</main>
+
+</body>
+</html>
