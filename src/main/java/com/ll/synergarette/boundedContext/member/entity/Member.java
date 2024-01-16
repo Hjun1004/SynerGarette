@@ -1,6 +1,7 @@
 package com.ll.synergarette.boundedContext.member.entity;
 
 
+import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
 import com.ll.synergarette.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,10 @@ public class Member {
 
     @OneToMany(mappedBy = "writeUserId", cascade = CascadeType.REMOVE)
     List<Review> writeReviewList; // 멤버가 쓴 리뷰 목록
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<CartItem> cartItemList; // 장바구니 목록
+
 
     // 일반회원인지, 카카오로 가입한 회원인지, 구글로 가입한 회원인지
     private String providerTypeCode;

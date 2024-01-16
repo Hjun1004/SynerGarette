@@ -40,6 +40,7 @@ public class Payment {
 
     @Column
     private String paymentKey;
+
     @Column
     private String failReason;
 
@@ -65,7 +66,4 @@ public class Payment {
                 .failReason(failReason)
                 .build();
     }
-
-
-
 }

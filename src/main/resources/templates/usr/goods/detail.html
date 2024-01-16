@@ -22,6 +22,8 @@
 
     <div class="mb-3" th:text="${goodsItem.goodsPrice}"></div>
 
+    <a class="btn btn-neutral" th:href="@{|/cartItem/addCartItem/${goodsItem.id}|}">장바구니 담기</a>
+
     <a class="btn btn-neutral" th:href="@{|/payment/goods/${goodsItem.id}|}">결제하기</a>
 
 <!--    <div id="readEditor">-->

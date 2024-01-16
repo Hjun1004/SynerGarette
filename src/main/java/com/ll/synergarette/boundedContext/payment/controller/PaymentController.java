@@ -4,12 +4,16 @@ import com.ll.synergarette.base.rq.Rq;
 import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.goods.service.GoodsService;
 import com.ll.synergarette.boundedContext.payment.config.TossPaymentConfig;
+import com.ll.synergarette.boundedContext.payment.dto.PaymentReq;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +34,8 @@ import java.util.Optional;
 @Setter
 @RequestMapping("/payment/goods")
 public class PaymentController {
+    @Value("${payment.toss.test_client_secret_key}")
+    private String testSecretKey;
     private final GoodsService goodsService;
 
     private final TossPaymentConfig tossPaymentConfig;
@@ -49,14 +55,15 @@ public class PaymentController {
 
     }
 
-    @GetMapping(value = "success")
+
+    @GetMapping("/success")
     public String paymentResult(
             Model model,
             @RequestParam(value = "orderId") String orderId,
             @RequestParam(value = "amount") Integer amount,
             @RequestParam(value = "paymentKey") String paymentKey) throws Exception {
 
-        String secretKey = "test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy:";
+        String secretKey = testSecretKey;
 
         Base64.Encoder encoder = Base64.getEncoder();
         byte[] encodedBytes = encoder.encode(secretKey.getBytes("UTF-8"));
@@ -107,7 +114,8 @@ public class PaymentController {
             model.addAttribute("message", (String) jsonObject.get("message"));
         }
 
-        return "success";
+//        return "success";
+        return "usr/order/success";
     }
 
     @GetMapping(value = "fail")
@@ -120,6 +128,7 @@ public class PaymentController {
         model.addAttribute("code", code);
         model.addAttribute("message", message);
 
-        return "fail";
+//        return "fail";
+        return "usr/order/fail";
     }
 }

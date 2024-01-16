@@ -15,6 +15,10 @@
 
   <div class="mt-3"></div>
 
+<!--  <div>-->
+<!--    <a class="btn btn-neutral mb-3" th:href="@{|/api/v1/goods/purchase|}"></a>-->
+<!--  </div>-->
+
   <div>
     <button class="btn btn-neutral mb-3" onclick="payment();">결제하기</button>
   </div>
@@ -31,8 +35,8 @@
         amount: [[${goodsItem.goodsPrice}]],
         orderId: 'AD8aZDpbzXs4EQa-UkIX6',
         orderName: [[${goodsItem.goodsName}]],
-        successUrl: 'http://localhost:8080/success',
-        failUrl: 'http://localhost:8080/fail'
+        successUrl: 'http://localhost:8080/payment/goods/success',
+        failUrl: 'http://localhost:8080/payment/goods/fail'
       })
     }
   </script>
