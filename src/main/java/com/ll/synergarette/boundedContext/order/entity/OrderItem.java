@@ -1,8 +1,7 @@
 package com.ll.synergarette.boundedContext.order.entity;
 
 import com.ll.synergarette.boundedContext.goods.entity.Goods;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +16,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SuperBuilder
 public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
     @ManyToOne
     private Order order;
 

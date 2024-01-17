@@ -13,28 +13,27 @@
 
   <div class="container mx-5">
 
-    <h1 class="mb-4" th:if="${!#lists.isEmpty(cartItemList)}">
-      <i class="fa-solid fa-list-ol"></i>
-      장바구니 목록
-    </h1>
+<!--    <h1 class="mb-4" th:if="${!#lists.isEmpty(cartItemList)}">-->
+<!--      <i class="fa-solid fa-list-ol"></i>-->
+<!--      장바구니 목록-->
+<!--    </h1>-->
 
+    <i class="fa-solid fa-list-ol"></i>
     장바구니 목록
 
     <div th:if="${!#lists.isEmpty(cartItemList)}">
-      <div class="flex flex-row flex-wrap">
-        <div th:each="cartItem : ${cartItemList}">
-          <a class="card bg-base-100 shadow-xl border mt-5" th:href="@{|/goods/${cartItem.goodsItem.id}|}">
-            <figure></figure>
-            <div class="card-body">
-              <h2 class="card-title" th:text="${cartItem.goodsItem.goodsName}"></h2>
+        <div th:each="cartItem : ${cartItemList}" class="mb-5">
+              <a class="card bg-base-100 shadow-xl border " th:href="@{|/goods/${cartItem.goodsItem.id}|}">
+                  <figure></figure>
+                  <div class="card-body">
+                      <h2 class="card-title" th:text="${cartItem.goodsItem.goodsName}"></h2>
 
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
-              </div>
-            </div>
-          </a>
+                      <div class="card-actions justify-end">
+                          <button class="btn btn-primary">Buy Now</button>
+                      </div>
+                  </div>
+              </a>
         </div>
-      </div>
     </div>
 
   </div>
