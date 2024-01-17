@@ -26,7 +26,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @EntityListeners(AuditingEntityListener.class)
 public class CartItem {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreatedDate
@@ -37,4 +37,5 @@ public class CartItem {
 
     @ManyToOne
     private Goods goodsItem;
+
 }

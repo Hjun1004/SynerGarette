@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartItemService {
     private final CartItemRepository cartItemRepository;
 
+    @Transactional
     public RsData<CartItem> addCartItem(Member member, Goods goodsItem) {
         CartItem cartItem = CartItem
                 .builder()

@@ -11,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Getter
 @Builder
@@ -37,8 +39,6 @@ public class Order {
     @JoinColumn(name = "member")
     private Member member;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<OrderItem> orderItemList;
 
     private boolean isPaid; // 결제여부
 

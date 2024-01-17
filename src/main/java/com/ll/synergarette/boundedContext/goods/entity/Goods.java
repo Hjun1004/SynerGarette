@@ -1,6 +1,8 @@
 package com.ll.synergarette.boundedContext.goods.entity;
 
 import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
+import com.ll.synergarette.boundedContext.order.entity.Order;
+import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,8 +48,10 @@ public class Goods {
     private String goodsDetail;
 
     @OneToMany(mappedBy = "goodsItem", cascade = CascadeType.REMOVE)
-    private List<Review> writtenReviewList; // 해당 상품에 써진 리뷰 리스트
+    private List<Review> writtenReviewList = new ArrayList<>(); // 해당 상품에 써진 리뷰 리스트
 
     @OneToMany(mappedBy = "goodsItem", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<CartItem> cartItemList; // 해당 상품이 장바구니에 담긴 리스트들?
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    private List<CartItem> cartItemList = new ArrayList<>(); // 해당 상품이 장바구니에 담긴 리스트들?
+
 }

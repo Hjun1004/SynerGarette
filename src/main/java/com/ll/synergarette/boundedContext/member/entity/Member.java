@@ -2,6 +2,7 @@ package com.ll.synergarette.boundedContext.member.entity;
 
 
 import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
+import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -48,11 +51,14 @@ public class Member {
     private String email;
 
     @OneToMany(mappedBy = "writeUserId", cascade = CascadeType.REMOVE)
-    List<Review> writeReviewList; // 멤버가 쓴 리뷰 목록
+    List<Review> writeReviewList  = new ArrayList<>(); // 멤버가 쓴 리뷰 목록
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<CartItem> cartItemList; // 장바구니 목록
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    List<CartItem> cartItemList = new ArrayList<>(); // 장바구니 목록
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)
+    List<Order> orderList = new ArrayList<>();
 
     // 일반회원인지, 카카오로 가입한 회원인지, 구글로 가입한 회원인지
     private String providerTypeCode;
