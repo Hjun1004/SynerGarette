@@ -7,14 +7,17 @@ import com.ll.synergarette.boundedContext.cartItem.service.CartItemService;
 import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.goods.service.GoodsService;
 import com.ll.synergarette.boundedContext.member.entity.Member;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +42,29 @@ public class CartItemController {
         return "usr/cartItem/cartItemList";
     }
 
+    @AllArgsConstructor
+    @Getter
+    public static class CheckItem {
+        @NotBlank
+        @Size(min = 3, max = 30)
+        private final String username;
+    }
+
+    @PostMapping("/items/delete")
+    @PreAuthorize("isAuthenticated()")
+    public String deleteCartItem(@RequestParam(name = "selectCartItem", required = false) Long[] selectCartItems){
+        if(selectCartItems != null){
+            for(Long goodsId : selectCartItems){
+                CartItem selectCartItem = cartItemService.findById(goodsId).get();
+
+                cartItemService.deleteCartItem(selectCartItem);
+            }
+        }
+
+        return rq.historyBack("삭제되었습니다.");
+    }
+
+
     @GetMapping("/addCartItem/{id}")
     @PreAuthorize("isAuthenticated()")
     public String addCartItem(@PathVariable Long id, Model model){
@@ -58,6 +84,8 @@ public class CartItemController {
 
         return rq.historyBack(cartItemRsData.getMsg());
     }
+
+
 
 
 }

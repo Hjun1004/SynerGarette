@@ -18,23 +18,93 @@
 <!--      장바구니 목록-->
 <!--    </h1>-->
 
-    <i class="fa-solid fa-list-ol"></i>
-    장바구니 목록
+      <script th:inline="javascript">
+            // 이전의 코드에서 JSON화 할 때 에러가 발생하기 때문에 정확하게 username까지 불러오도록 수정해주었다.
 
-    <div th:if="${!#lists.isEmpty(cartItemList)}">
-        <div th:each="cartItem : ${cartItemList}" class="mb-5">
-              <a class="card bg-base-100 shadow-xl border " th:href="@{|/goods/${cartItem.goodsItem.id}|}">
-                  <figure></figure>
-                  <div class="card-body">
-                      <h2 class="card-title" th:text="${cartItem.goodsItem.goodsName}"></h2>
+            function CheckItem__submit(form) {
+                // username 이(가) 올바른지 체크
 
-                      <div class="card-actions justify-end">
-                          <button class="btn btn-primary">Buy Now</button>
-                      </div>
+                const $checkedAttractiveTypeCodeRadioButton = $(form).find("[name=selectCartItem]:checked");
+
+                if ($checkedAttractiveTypeCodeRadioButton.length == 0) {
+                    toastWarning('상품을 선택해 주세요.');
+                    $(form).find("[name=selectCartItem]:first").focus();
+                    return;
+                }
+
+                form.submit(); // 폼 발송
+            }
+      </script>
+
+      <i class="fa-solid fa-list-ol"></i>
+      장바구니 목록
+
+      <form class="flex flex-col gap-6" id="cartItemForm" method="POST" onsubmit="CheckItem__submit(this); return false;">
+          <div th:if="${!#lists.isEmpty(cartItemList)}">
+              <div class="form-control">
+                  <div th:each="cartItem : ${cartItemList}" class="mt-5">
+                      <input type="checkbox" name="selectCartItem" class="checkbox" th:value="${cartItem.id}" />
+                      <a class="card bg-base-100 shadow-xl border " th:href="@{|/goods/${cartItem.goodsItem.id}|}">
+                          <figure></figure>
+                          <div class="card-body">
+                              <h2 class="card-title" th:text="${cartItem.goodsItem.goodsName}"></h2>
+
+                              <div class="card-actions justify-end">
+                                  <button class="btn btn-primary">Buy Now</button>
+                              </div>
+                          </div>
+                      </a>
                   </div>
-              </a>
-        </div>
-    </div>
+              </div>
+          </div>
+
+
+
+<!--          <input class="btn btn-primary text-black mb-3" type="submit" value="삭제하기" id="deleteButton" onclick="javascript: form.action='/cartItem/items/delete';"/>-->
+          <input class="btn btn-primary text-black" type="submit" value="주문하기" onclick="javascript: form.action='/cartItem/items/order';"/>
+
+      </form>
+
+      <button class="btn" onclick="my_modal_4.showModal()">선택 삭제하기</button>
+      <dialog id="my_modal_4" class="modal">
+          <div class="modal-box w-11/12 max-w-5xl">
+<!--              <h3 class="font-bold text-lg">Hello!</h3>-->
+              <p class="py-4">선택한 상품을 삭제하시겠습니까?</p>
+              <div class="modal-action">
+                  <form method="dialog">
+                      <!-- if there is a button, it will close the modal -->
+                      <input class="btn btn-primary text-black mb-3" type="submit" value="삭제하기" onclick="submitForm('/cartItem/items/delete')"/>
+                      <button class="btn">취소</button>
+                  </form>
+              </div>
+          </div>
+      </dialog>
+
+      <script th:inline="javascript">
+        function submitForm(action) {
+            // 폼을 찾습니다.
+            var form = document.getElementById('cartItemForm');
+
+
+            // 폼이 존재하는지 확인합니다.
+            if (form) {
+                const $checkedAttractiveTypeCodeRadioButton = $(form).find("[name=selectCartItem]:checked");
+
+                if ($checkedAttractiveTypeCodeRadioButton.length == 0) {
+                    toastWarning('상품을 선택해 주세요.');
+                    $(form).find("[name=selectCartItem]:first").focus();
+                    return;
+                }
+
+                form.submit(); // 폼 발송
+                // 폼의 action 속성을 변경합니다.
+                form.action = action;
+
+                // 폼을 서브밋합니다.
+                form.submit();
+            }
+        }
+      </script>
 
   </div>
 

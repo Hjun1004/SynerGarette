@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -27,4 +30,20 @@ public class CartItemService {
 
         return RsData.of("S-1","장바구니에 추가되었습니다.", cartItem);
     }
+
+    @Transactional
+    public RsData deleteCartItem(CartItem cartItem){
+        cartItemRepository.delete(cartItem);
+        return RsData.of("S-1", "삭제되었습니다.");
+    }
+
+    public List<CartItem> getItemsByBuyer(Member buyer){
+        return cartItemRepository.findAllByBuyerId(buyer.getId());
+    }
+
+    public Optional<CartItem> findById(Long id){
+        return cartItemRepository.findById(id);
+    }
+
+
 }
