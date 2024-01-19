@@ -27,7 +27,14 @@ public class OrderItem {
 
     private LocalDateTime payDate;
 
+    private Long goodsPrice;
+
     @ManyToOne
     private Goods goods;
+
+    public OrderItem(Goods goodsItem) {
+        this.goods = goodsItem;
+        this.goodsPrice = goodsItem.getGoodsPrice();
+    }
 
 }

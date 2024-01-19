@@ -38,7 +38,7 @@ public class CartItemService {
     }
 
     public List<CartItem> getItemsByBuyer(Member buyer){
-        return cartItemRepository.findAllByBuyerId(buyer.getId());
+        return cartItemRepository.findAllByMemberId(buyer.getId());
     }
 
     public Optional<CartItem> findById(Long id){

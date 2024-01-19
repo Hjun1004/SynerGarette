@@ -22,6 +22,8 @@ public class OrderController {
     public String create(){
         Member member = rq.getMember();
         Order order = orderService.createFromCart(member);
+
+        return rq.redirectWithMsg("/order/%d".formatted(order.getId()), "%d번 주문이 생성되었습니다.".formatted(order.getId()));
     }
 
 }

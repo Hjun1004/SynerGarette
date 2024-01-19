@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -39,12 +40,22 @@ public class Order {
     @JoinColumn(name = "member")
     private Member member;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "order" ,  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)
+    List<OrderItem> orderItemList = new ArrayList<>();
+
 
     private boolean isPaid; // 결제여부
 
     private boolean isCanceled; // 취소여부
 
     private boolean isRefunded; // 환불여부
+
+    public void addOrderItem(OrderItem orderItem){
+        orderItem.setOrder(this);
+
+        this.orderItemList.add(orderItem);
+    }
 
 
 

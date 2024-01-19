@@ -65,6 +65,10 @@
 
       </form>
 
+      <a href="javascript:;" onclick="$(this).next().submit();" class="btn btn-primary">전체
+          주문하기</a>
+      <form method="POST" th:action="@{|/order/create|}" hidden></form>
+
       <button class="btn" onclick="my_modal_4.showModal()">선택 삭제하기</button>
       <dialog id="my_modal_4" class="modal">
           <div class="modal-box w-11/12 max-w-5xl">
