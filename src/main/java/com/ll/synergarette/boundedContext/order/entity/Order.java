@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -41,7 +42,7 @@ public class Order {
     private Member member;
 
     @Builder.Default
-    @OneToMany(mappedBy = "order" ,  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)
+    @OneToMany(mappedBy = "order" ,  fetch = FetchType.LAZY, cascade = ALL,  orphanRemoval = true)
     List<OrderItem> orderItemList = new ArrayList<>();
 
 
