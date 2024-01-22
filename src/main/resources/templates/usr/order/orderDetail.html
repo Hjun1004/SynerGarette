@@ -3,13 +3,21 @@
 <head>
   <title>Title</title>
 
+  <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+
 </head>
 
 <body>
 
 <main layout:fragment="main">
 
+  <script th:inline="javascript">
+        const orderId = /*[[ ${order.id} ]]*/ null;
+        const buyerName = /*[[ ${order.member.nickname} ]]*/ null;
+        const orderName = /*[[ ${order.name} ]]*/ null;
+        const orderPayPrice = /*[[ ${order.totalPrice} ]]*/ null;
 
+  </script>
 
   <div class="container mx-5">
 
@@ -41,6 +49,33 @@
             </a>
           </div>
       </div>
+
+    <div class="mt-3 text-2xl" th:text="|총 주문금액: ${order.totalPrice} 원|"></div>
+
+    <div class="mt-3 text-2xl" th:text="|주문 이름: ${order.name}|"></div>
+
+
+    <div>
+      <button class="btn btn-neutral mb-3" onclick="payment();">결제하기</button>
+    </div>
+
+
+
+    <script th:inline="javascript">
+    var clientKey = [[${tossPaymentConfig.testClientKey}]]
+    var tossPayments = TossPayments(clientKey)
+
+    function payment(){
+      tossPayments.requestPayment("카드", {
+        amount: orderPayPrice,
+        orderId: "order__" + orderId + "__" + (Math.random() + "").substring(2),
+        orderName: orderName,
+        successUrl: 'http://localhost:8080/payment/goods/success',
+        failUrl: 'http://localhost:8080/payment/goods/fail'
+      })
+    }
+  </script>
+
   </div>
 
 </main>

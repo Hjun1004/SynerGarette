@@ -6,6 +6,7 @@ import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.order.service.OrderService;
+import com.ll.synergarette.boundedContext.payment.config.TossPaymentConfig;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,8 @@ import java.util.List;
 public class OrderController {
     private final Rq rq;
     private final OrderService orderService;
+
+    private final TossPaymentConfig tossPaymentConfig;
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated")
@@ -57,6 +60,7 @@ public class OrderController {
 
         model.addAttribute("order", order);
         model.addAttribute("member", member);
+        model.addAttribute("tossPaymentConfig", tossPaymentConfig);
 
         return "usr/order/orderDetail";
     }

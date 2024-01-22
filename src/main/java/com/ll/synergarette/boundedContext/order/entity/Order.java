@@ -28,6 +28,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     private LocalDateTime refundDate;
 
     private LocalDateTime payDate;
@@ -56,6 +58,23 @@ public class Order {
         orderItem.setOrder(this);
 
         this.orderItemList.add(orderItem);
+    }
+
+    public Long totalPrice(){
+        Long totalPrice = 0L;
+        totalPrice = orderItemList.stream().mapToLong(e -> e.getGoodsPrice()).sum();
+
+        return totalPrice;
+    }
+
+    public void makeName(){
+        String name = orderItemList.get(0).getGoods().getGoodsName();
+
+        if(orderItemList.size() > 1){
+            name += "외 %d건".formatted(orderItemList.size() - 1);
+        }
+
+        this.name = name;
     }
 
 

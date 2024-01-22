@@ -60,6 +60,8 @@ public class OrderService {
             order.addOrderItem(orderItem);
         }
 
+        order.makeName();
+
         orderRepository.save(order);
 
         return RsData.of("S-1", "주문이 성공적으로 생성되었습니다.", order) ;
