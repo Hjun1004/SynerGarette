@@ -70,8 +70,8 @@
         amount: orderPayPrice,
         orderId: "order__" + orderId + "__" + (Math.random() + "").substring(2),
         orderName: orderName,
-        successUrl: 'http://localhost:8080/payment/goods/success',
-        failUrl: 'http://localhost:8080/payment/goods/fail'
+        successUrl: "http://localhost:8080/order/" + orderId + "/success",
+        failUrl: 'http://localhost:8080/order/orderId/fail'
       })
     }
   </script>
