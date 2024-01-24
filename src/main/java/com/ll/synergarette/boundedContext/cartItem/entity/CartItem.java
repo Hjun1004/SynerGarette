@@ -32,10 +32,10 @@ public class CartItem {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Goods goodsItem;
 
 }

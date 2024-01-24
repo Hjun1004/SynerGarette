@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,9 @@ public class CartItemController {
     public String showCartItem(Model model){
         Member member = rq.getMember();
 
-        List<CartItem> cartItemList = member.getCartItemList();
+        List<CartItem> cartItemList = cartItemService.findCartItemsWithGoodsByMember(member.getId());
+
+//        List<CartItem> cartItemList = member.getCartItemList();
 
         model.addAttribute(cartItemList);
 

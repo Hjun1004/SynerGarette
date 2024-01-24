@@ -22,14 +22,14 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
     private LocalDateTime payDate;
 
     private Long goodsPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Goods goods;
 
     public OrderItem(Goods goodsItem) {

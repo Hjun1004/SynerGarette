@@ -31,6 +31,10 @@ public class CartItemService {
         return RsData.of("S-1","장바구니에 추가되었습니다.", cartItem);
     }
 
+    public List<CartItem> findCartItemsWithGoodsByMember(Long id){
+        return cartItemRepository.findCartItemsWithGoodsByMemberId(id);
+    }
+
     @Transactional
     public RsData deleteCartItem(CartItem cartItem){
         cartItemRepository.delete(cartItem);
