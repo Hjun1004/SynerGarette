@@ -2,6 +2,8 @@ package com.ll.synergarette.boundedContext.member.entity;
 
 
 import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
+import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
+import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
 import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
@@ -12,6 +14,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,6 +38,9 @@ public class Member {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @OneToOne
+    private MyPage myPage;
+
     @CreatedDate
     private LocalDateTime createDate;
 
@@ -46,6 +52,9 @@ public class Member {
     @Column(unique = true)
     private String nickname;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    List<DeliveryAddress> deliveryAddressesList = new ArrayList<>();
 
     @Column(unique = true) // email 중복 안됨
     private String email;

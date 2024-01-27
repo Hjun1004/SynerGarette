@@ -13,6 +13,7 @@ import com.ll.synergarette.boundedContext.order.service.OrderService;
 import com.ll.synergarette.boundedContext.payment.config.TossPaymentConfig;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,9 @@ public class OrderController {
 
     private final TossPaymentConfig tossPaymentConfig;
 
+    @Value("${custom.site.baseUrl}")
+    private String baseUrl;
+
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated")
     public String create(){
@@ -81,6 +85,7 @@ public class OrderController {
         model.addAttribute("order", order);
         model.addAttribute("member", member);
         model.addAttribute("tossPaymentConfig", tossPaymentConfig);
+        model.addAttribute("baseUrl", baseUrl);
 
         return "usr/order/orderDetail";
     }
