@@ -9,7 +9,16 @@
 <body>
 
 <main layout:fragment="main">
-  <div class="text-2xl">실패</div>
+  <div>
+    주문 결제실패
+  </div>
+
+  <div>
+    주문번호 : [[${orderId}]]
+  </div>
+
+  <div>[[${message}]]</div>
+  <div>[[${code}]]</div>
 
 </main>
 

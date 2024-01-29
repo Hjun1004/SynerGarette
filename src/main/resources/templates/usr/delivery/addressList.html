@@ -1,0 +1,74 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>Title</title>
+
+</head>
+
+<body>
+
+<main layout:fragment="main">
+
+
+
+
+    <div class="container mx-5">
+
+        <div class="flex justify-between">
+            <div>
+                <i class="fa-solid fa-list-ol"></i>
+                배송지 목록
+            </div>
+
+            <div>
+                <a href="#" onclick="window.open('/delivery/addAddressForm', '_blank', 'width=900,height=1000');">배송지 추가</a>
+            </div>
+        </div>
+
+        <hr />
+        <br></br>
+
+
+            <div th:if="${!#lists.isEmpty(deliveryAddressList)}">
+                    <div th:each="deliveryAddress : ${deliveryAddressList}" class="mt-5">
+    <!--                    <input type="checkbox" name="selectCartItem" class="checkbox" id="checkBoxToDelivery" th:value="${deliveryAddress.id}" />-->
+    <!--                    <label for="checkBoxToDelivery">-->
+                            <div class="card bg-base-100 shadow-xl border" >
+                                <div class="card-body">
+                                    <h2 class="card-title" th:text="${deliveryAddress.addressName}"></h2>
+                                    <div th:text="${deliveryAddress.phoneNumber}"></div>
+                                    <div th:text="|(${deliveryAddress.postNumber}) ${deliveryAddress.address} ${deliveryAddress.detailAddress}|"></div>
+
+                                    <div class="card-actions justify-end">
+<!--                                        <button class="btn btn-primary">Buy Now</button>-->
+                                        <button type="button" class="btn btn-primary" onclick="buyNow(${deliveryAddress.id})">Buy Now</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+    <!--                    </label>-->
+                    </div>
+            </div>
+    </div>
+
+    <script>
+        function buyNow(deliveryId) {
+            // deliveryAddress.id를 사용하여 AJAX 호출
+            $.ajax({
+                type: 'POST',
+                url: 'your_server_endpoint', // 실제 엔드포인트로 교체해야 함
+                data: { 'deliveryAddressId': deliveryId },
+                success: function(response) {
+                    // 성공 시 실행할 코드
+                },
+                error: function(error) {
+                    // 에러 시 실행할 코드
+                }
+            });
+        }
+    </script>
+</main>
+
+</body>
+</html>

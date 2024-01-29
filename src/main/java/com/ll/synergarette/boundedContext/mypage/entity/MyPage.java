@@ -1,21 +1,16 @@
-package com.ll.synergarette.boundedContext.cartItem.entity;
+package com.ll.synergarette.boundedContext.mypage.entity;
 
-
-import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
-
 
 @Entity
 @Getter
@@ -24,18 +19,19 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
-public class CartItem {
+public class MyPage {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @CreatedDate
     private LocalDateTime createDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "myPage")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Goods goodsItem;
+
+
 
 }

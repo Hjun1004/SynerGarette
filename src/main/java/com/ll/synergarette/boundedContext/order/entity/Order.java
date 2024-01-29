@@ -9,8 +9,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -26,6 +28,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     private LocalDateTime refundDate;
 
     private LocalDateTime payDate;
@@ -39,12 +43,39 @@ public class Order {
     @JoinColumn(name = "member")
     private Member member;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "order" ,  fetch = FetchType.LAZY, cascade = ALL,  orphanRemoval = true)
+    List<OrderItem> orderItemList = new ArrayList<>();
+
 
     private boolean isPaid; // 결제여부
 
     private boolean isCanceled; // 취소여부
 
     private boolean isRefunded; // 환불여부
+
+    public void addOrderItem(OrderItem orderItem){
+        orderItem.setOrder(this);
+
+        this.orderItemList.add(orderItem);
+    }
+
+    public Long totalPrice(){
+        Long totalPrice = 0L;
+        totalPrice = orderItemList.stream().mapToLong(e -> e.getGoodsPrice()).sum();
+
+        return totalPrice;
+    }
+
+    public void makeName(){
+        String name = orderItemList.get(0).getGoods().getGoodsName();
+
+        if(orderItemList.size() > 1){
+            name += "외 %d건".formatted(orderItemList.size() - 1);
+        }
+
+        this.name = name;
+    }
 
 
 

@@ -44,6 +44,5 @@ public class GoodsController {
         model.addAttribute("goodsItem", opGoods.get());
 
         return "usr/goods/detail";
-
     }
 }
