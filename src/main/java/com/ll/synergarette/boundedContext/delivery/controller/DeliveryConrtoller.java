@@ -1,5 +1,6 @@
 package com.ll.synergarette.boundedContext.delivery.controller;
 
+
 import com.ll.synergarette.base.rq.Rq;
 import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
 import com.ll.synergarette.boundedContext.delivery.entity.DeliveryForm;
@@ -8,12 +9,14 @@ import com.ll.synergarette.boundedContext.member.entity.Member;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,8 +40,23 @@ public class DeliveryConrtoller {
 
         DeliveryAddress deliveryAddress = deliveryService.addDelivery(member, deliveryForm);
 
-        return "/";
+        return rq.redirectWithMsg("/", "배송지가 등록되었습니다.");
     }
 
+    @GetMapping("/addressList")
+    public String addressList(Model model){
+        Member member = rq.getMember();
+
+        List<DeliveryAddress> deliveryAddressList = member.getDeliveryAddressesList();
+
+        model.addAttribute("deliveryAddressList",deliveryAddressList);
+
+        return "usr/delivery/addressList";
+    }
+
+    @PostMapping("/selectAddress")
+    public String selectAddress(){
+
+    }
 
 }
