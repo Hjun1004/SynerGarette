@@ -52,18 +52,26 @@
             </div>
     </div>
 
-    <script>
+    <script th:inline="javascript">
         function buyNow(deliveryId) {
             // deliveryAddress.id를 사용하여 AJAX 호출
             $.ajax({
                 type: 'POST',
-                url: 'your_server_endpoint', // 실제 엔드포인트로 교체해야 함
+                url: '/delivery/selectAddress',
                 data: { 'deliveryAddressId': deliveryId },
                 success: function(response) {
-                    // 성공 시 실행할 코드
+                    //성공시 실행할 코드
+
+                    // 서버에서 반환된 데이터를 처리 (필요에 따라 추가 작업 수행 가능)
+
+                        // 현재 창 닫기
+                        window.opener.location.reload(); // 부모 창 새로고침
+                        window.close();
                 },
                 error: function(error) {
                     // 에러 시 실행할 코드
+                    // 오류 처리 (필요에 따라 추가 작업 수행 가능)
+                        console.error("Error:", error);
                 }
             });
         }

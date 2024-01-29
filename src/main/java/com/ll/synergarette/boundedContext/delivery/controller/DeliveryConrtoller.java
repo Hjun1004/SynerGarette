@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -55,8 +53,15 @@ public class DeliveryConrtoller {
     }
 
     @PostMapping("/selectAddress")
-    public String selectAddress(){
+    @ResponseBody
+    public String selectAddress(@RequestParam("deliveryAddressId") Long deliveryAddressId){
+        DeliveryAddress deliveryAddress = deliveryService.findById(deliveryAddressId).orElse(null);
 
+        Member member = rq.getMember();
+
+//        member.setNowDeliveryAddress(deliveryAddress);
+
+        return "배송지 지정 완료";
     }
 
 }

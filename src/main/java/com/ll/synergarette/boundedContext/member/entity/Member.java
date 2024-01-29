@@ -52,6 +52,8 @@ public class Member {
     @Column(unique = true)
     private String nickname;
 
+
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.EXTRA)
     List<DeliveryAddress> deliveryAddressesList = new ArrayList<>();
@@ -86,6 +88,7 @@ public class Member {
 
         return grantedAuthorities;
     }
+
 
     public boolean isAdmin() {
         return "admin".equals(username);
