@@ -2,11 +2,18 @@ package com.ll.synergarette.boundedContext.delivery.controller;
 
 
 import com.ll.synergarette.base.rq.Rq;
+import com.ll.synergarette.base.rsData.RsData;
 import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
 import com.ll.synergarette.boundedContext.delivery.entity.DeliveryForm;
 import com.ll.synergarette.boundedContext.delivery.service.DeliveryService;
 import com.ll.synergarette.boundedContext.member.entity.Member;
+import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
+import com.ll.synergarette.boundedContext.mypage.repository.MyPageRepository;
+import com.ll.synergarette.boundedContext.mypage.service.MyPageService;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +28,8 @@ import java.util.List;
 @RequestMapping("/delivery")
 public class DeliveryConrtoller {
     private final DeliveryService deliveryService;
+
+    private final MyPageService myPageService;
     private final Rq rq;
     @GetMapping("/addAddressForm")
     public String showAddAddressForm(DeliveryForm deliveryForm){
@@ -52,14 +61,28 @@ public class DeliveryConrtoller {
         return "usr/delivery/addressList";
     }
 
+    @AllArgsConstructor
+    @Getter
+    public class DeliveryIdForm {
+        @NotNull
+        private final Long nowDelivery;
+    }
+
     @PostMapping("/selectAddress")
     @ResponseBody
-    public String selectAddress(@RequestParam("deliveryAddressId") Long deliveryAddressId){
-        DeliveryAddress deliveryAddress = deliveryService.findById(deliveryAddressId).orElse(null);
+    public String selectAddress(@Valid DeliveryIdForm deliveryIdForm, BindingResult bindingResult, Principal principal){
+        if(bindingResult.hasErrors()){
+            return "usr/delivery/addressList";
+        }
+
+        Long nowDeliveryId = deliveryIdForm.getNowDelivery();
+
+        DeliveryAddress deliveryAddress = deliveryService.findById(nowDeliveryId).orElse(null);
+
 
         Member member = rq.getMember();
 
-//        member.setNowDeliveryAddress(deliveryAddress);
+        MyPage myPage = myPageService.setNowAddress(member, deliveryAddress).getData();
 
         return "배송지 지정 완료";
     }

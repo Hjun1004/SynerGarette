@@ -6,6 +6,7 @@ import com.ll.synergarette.base.rq.Rq;
 import com.ll.synergarette.base.rsData.RsData;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
+import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
 import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.order.exception.OrderIdNotMatchedException;
@@ -81,6 +82,7 @@ public class OrderController {
 
         model.addAttribute("orderItemList", orderItemList);
 
+        MyPage myPage = member.getMyPage();
 
         model.addAttribute("order", order);
         model.addAttribute("member", member);

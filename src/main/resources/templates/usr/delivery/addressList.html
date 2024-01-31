@@ -28,54 +28,65 @@
         <hr />
         <br></br>
 
-
+        <form th:action="@{/delivery/selectAddress}" method="POST" id="selectDeliveryForm" th:object="${deliveryIdForm}">
             <div th:if="${!#lists.isEmpty(deliveryAddressList)}">
-                    <div th:each="deliveryAddress : ${deliveryAddressList}" class="mt-5">
-    <!--                    <input type="checkbox" name="selectCartItem" class="checkbox" id="checkBoxToDelivery" th:value="${deliveryAddress.id}" />-->
-    <!--                    <label for="checkBoxToDelivery">-->
-                            <div class="card bg-base-100 shadow-xl border" >
-                                <div class="card-body">
-                                    <h2 class="card-title" th:text="${deliveryAddress.addressName}"></h2>
-                                    <div th:text="${deliveryAddress.phoneNumber}"></div>
-                                    <div th:text="|(${deliveryAddress.postNumber}) ${deliveryAddress.address} ${deliveryAddress.detailAddress}|"></div>
+                <div th:each="deliveryAddress : ${deliveryAddressList}" class="mt-5">
+                    <!--                    <input type="checkbox" name="selectCartItem" class="checkbox" id="checkBoxToDelivery" th:value="${deliveryAddress.id}" />-->
+                    <!--                    <label for="checkBoxToDelivery">-->
+                    <div class="card bg-base-100 shadow-xl border" >
+                        <div class="card-body">
+                            <h2 class="card-title" th:text="${deliveryAddress.addressName}"></h2>
+                            <div th:text="${deliveryAddress.phoneNumber}"></div>
+                            <div th:text="|(${deliveryAddress.postNumber}) ${deliveryAddress.address} ${deliveryAddress.detailAddress}|"></div>
+                            <div th:text="|딜리버리 id = ${deliveryAddress.id}|"></div>
 
-                                    <div class="card-actions justify-end">
-<!--                                        <button class="btn btn-primary">Buy Now</button>-->
-                                        <button type="button" class="btn btn-primary" onclick="buyNow(${deliveryAddress.id})">Buy Now</button>
-                                    </div>
+                            <div class="card-actions justify-end">
+                                <!--                                        <button class="btn btn-primary">Buy Now</button>-->
+                                <input type="hidden" id="deliveryAddressId" name="nowDelivery" th:value="${deliveryAddress.id}" >
+                                <button type="submit" class="btn btn-primary" id="submitBtn">Buy Now</button>
 
-
-                                </div>
                             </div>
-    <!--                    </label>-->
+
+
+                        </div>
                     </div>
+                    <!--                    </label>-->
+                </div>
             </div>
+        </form>
     </div>
 
     <script th:inline="javascript">
-        function buyNow(deliveryId) {
-            // deliveryAddress.id를 사용하여 AJAX 호출
-            $.ajax({
-                type: 'POST',
-                url: '/delivery/selectAddress',
-                data: { 'deliveryAddressId': deliveryId },
-                success: function(response) {
-                    //성공시 실행할 코드
+        $(document).ready(function() {
+            $("#submitBtn").click(function(e) {
+                e.preventDefault(); // 기본 폼 제출 방지
 
-                    // 서버에서 반환된 데이터를 처리 (필요에 따라 추가 작업 수행 가능)
+                var form = $("#selectDeliveryForm");
+                var formData = form.serialize(); // 폼 데이터를 가져옴
 
+                console.log(formData)
+
+                $.ajax({
+                    type: "POST",
+                    url: "/delivery/selectAddress",
+                    data: formData,
+                    success: function(response) {
+                        // 성공 시 수행할 작업
                         // 현재 창 닫기
-                        window.opener.location.reload(); // 부모 창 새로고침
-                        window.close();
-                },
-                error: function(error) {
-                    // 에러 시 실행할 코드
-                    // 오류 처리 (필요에 따라 추가 작업 수행 가능)
-                        console.error("Error:", error);
-                }
+                            window.opener.location.reload(); // 부모 창 새로고침
+                            window.close();
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        // 오류 발생 시 수행할 작업
+                        console.log(error);
+                    }
+                });
             });
-        }
+        });
     </script>
+
+
 </main>
 
 </body>

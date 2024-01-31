@@ -37,6 +37,7 @@ public class DeliveryService {
     }
 
     public Optional<DeliveryAddress> findById(Long deliveryAddressId) {
+        System.out.println(deliveryAddressId + "딜리버리 아이디!!!!!!!!");
         return deliveryRepository.findById(deliveryAddressId);
     }
 }

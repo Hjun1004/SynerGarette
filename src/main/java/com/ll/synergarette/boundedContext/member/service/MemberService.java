@@ -3,6 +3,8 @@ package com.ll.synergarette.boundedContext.member.service;
 import com.ll.synergarette.base.rsData.RsData;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.repository.MemberRepository;
+import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
+import com.ll.synergarette.boundedContext.mypage.repository.MyPageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     private final MemberRepository memberRepository;
+
+    private final MyPageRepository myPageRepository;
 
 
     public Optional<Member> findByUsername(String username) {
@@ -43,7 +47,19 @@ public class MemberService {
                 .providerTypeCode(providetTypeCode)
                 .build();
 
+        MyPage myPage = MyPage
+                .builder()
+                .member(member)
+                .build();
+
+
         memberRepository.save(member);
+
+        member.setMyPage(myPage);
+
+        myPageRepository.save(myPage);
+
+//        System.out.println(myPage.isMemberEmpty());
 
         return RsData.of("S-1", "회원가입이 완료되었습니다.", member);
     }

@@ -47,12 +47,23 @@
 
       <div class="py-5">
         <span>이름/연락처</span>
+<!--        <div th:if="${member.myPage.deliveryAddress != null}">-->
+<!--          <div th:text="|${member.myPage.deliveryAddress.recipient} / ${member.myPage.deliveryAddress.phoneNumber}|"></div>-->
+<!--        </div>-->
+
+        <div th:if="${!member.myPage.isEmpty()}">
+          <div th:text="|${member.myPage.deliveryAddress.recipient} / ${member.myPage.deliveryAddress.phoneNumber}|"></div>
+        </div>
       </div>
 
       <hr class="border-slate-600"/>
 
       <div class="py-5 border-solid">
         <span>주소</span>
+        <div th:if="${member.myPage.deliveryAddress != null}">
+          <div th:text="|${member.myPage.deliveryAddress.address} ${member.myPage.deliveryAddress.detailAddress}|"></div>
+        </div>
+
       </div>
     </div>
 

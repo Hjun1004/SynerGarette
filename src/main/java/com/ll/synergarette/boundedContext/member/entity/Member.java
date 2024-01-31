@@ -38,7 +38,8 @@ public class Member {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @JoinColumn(name="my_page_id")
     private MyPage myPage;
 
     @CreatedDate
@@ -51,7 +52,6 @@ public class Member {
 
     @Column(unique = true)
     private String nickname;
-
 
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)

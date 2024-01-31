@@ -1,6 +1,7 @@
 package com.ll.synergarette.boundedContext.delivery.entity;
 
 import com.ll.synergarette.boundedContext.member.entity.Member;
+import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,10 @@ public class DeliveryAddress {
 
     @ManyToOne
     private Member member;
+
+    @OneToOne(mappedBy = "deliveryAddress", fetch = FetchType.LAZY)
+    @JoinColumn(name="my_page_id")
+    private MyPage myPage;
 
     private String recipient;
 

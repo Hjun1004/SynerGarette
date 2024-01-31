@@ -1,5 +1,6 @@
 package com.ll.synergarette.boundedContext.mypage.entity;
 
+import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,8 +29,18 @@ public class MyPage {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @OneToOne(mappedBy = "myPage")
+    @OneToOne
     private Member member;
+
+    @OneToOne
+    private DeliveryAddress deliveryAddress;
+
+    public boolean isEmpty(){
+        if(deliveryAddress == null) return true;
+
+        return false;
+    }
+
 
 
 
