@@ -3,6 +3,8 @@ package com.ll.synergarette.base.initData;
 
 import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
 import com.ll.synergarette.boundedContext.cartItem.service.CartItemService;
+import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
+import com.ll.synergarette.boundedContext.delivery.service.DeliveryService;
 import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.goods.service.GoodsService;
 import com.ll.synergarette.boundedContext.member.entity.Member;
@@ -29,7 +31,8 @@ public class NotProd {
     CommandLineRunner initData(
             MemberService memberService,
             GoodsService goodsService,
-            CartItemService cartItemService
+            CartItemService cartItemService,
+            DeliveryService deliveryService
     ){
         return new CommandLineRunner() {
             @Override
@@ -53,6 +56,9 @@ public class NotProd {
 
                 CartItem firstCartitemByUser1 = cartItemService.addCartItem(memberUser1, seventhGoodsItem).getData();
                 CartItem secondCartitemByUser1 = cartItemService.addCartItem(memberUser1, eighthGoodsItem).getData();
+
+                DeliveryAddress deliveryAddress_First = deliveryService.addDelivery_For_NotProd(memberUser1, "허준홍", "집", "01077777777", "13529", "경기도 성남시 분당구 판교역로 166", "카카오 판교 아지트", "백현동");
+                DeliveryAddress deliveryAddress_Second = deliveryService.addDelivery_For_NotProd(memberUser1, "정예준", "집", "01088888888", "46772", "부산 강서구 명지국제6로 168", "스타필드", "명지동 3438");
             }
         };
     }

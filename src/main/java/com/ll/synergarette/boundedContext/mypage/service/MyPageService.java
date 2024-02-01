@@ -17,7 +17,6 @@ public class MyPageService {
     public RsData<MyPage> setNowAddress(Member member, DeliveryAddress deliveryAddress) {
         MyPage myPage = member.getMyPage();
 
-        System.out.println("주소지는 = " + deliveryAddress.getAddress());
 
         myPage.setDeliveryAddress(deliveryAddress);
 

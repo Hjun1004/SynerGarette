@@ -42,9 +42,9 @@
 
                             <div class="card-actions justify-end">
                                 <!--                                        <button class="btn btn-primary">Buy Now</button>-->
-                                <input type="hidden" id="deliveryAddressId" name="nowDelivery" th:value="${deliveryAddress.id}" >
-                                <button type="submit" class="btn btn-primary" id="submitBtn">Buy Now</button>
-
+                                <input type="hidden" th:id="'deliveryAddressId_' + ${deliveryAddress.id}" name="nowDelivery" th:value="${deliveryAddress.id}" >
+<!--                                <button type="submit" class="btn btn-primary" id="submitBtn">Buy Now</button>-->
+                                <button type="submit" class="btn btn-primary submitBtn" th:id="'submitBtn_' + ${deliveryAddress.id}">Buy Now</button>
                             </div>
 
 
@@ -58,13 +58,14 @@
 
     <script th:inline="javascript">
         $(document).ready(function() {
-            $("#submitBtn").click(function(e) {
+            $(".submitBtn").click(function(e) {
                 e.preventDefault(); // 기본 폼 제출 방지
 
-                var form = $("#selectDeliveryForm");
-                var formData = form.serialize(); // 폼 데이터를 가져옴
+                var button = $(this);
+                var deliveryAddressId = button.closest('.card').find("input[name='nowDelivery']").val();
+                console.log(deliveryAddressId);
 
-                console.log(formData)
+                var formData = "nowDelivery=" + deliveryAddressId;
 
                 $.ajax({
                     type: "POST",
@@ -73,8 +74,8 @@
                     success: function(response) {
                         // 성공 시 수행할 작업
                         // 현재 창 닫기
-                            window.opener.location.reload(); // 부모 창 새로고침
-                            window.close();
+                        window.opener.location.reload(); // 부모 창 새로고침
+                        window.close();
                         console.log(response);
                     },
                     error: function(error) {

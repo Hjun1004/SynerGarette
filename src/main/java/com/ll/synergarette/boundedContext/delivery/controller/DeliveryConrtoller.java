@@ -79,10 +79,12 @@ public class DeliveryConrtoller {
 
         DeliveryAddress deliveryAddress = deliveryService.findById(nowDeliveryId).orElse(null);
 
-
         Member member = rq.getMember();
 
         MyPage myPage = myPageService.setNowAddress(member, deliveryAddress).getData();
+
+
+
 
         return "배송지 지정 완료";
     }
