@@ -39,6 +39,8 @@ public class Order {
     @CreatedDate
     private LocalDateTime createDate;
 
+
+
     @ManyToOne
     @JoinColumn(name = "member")
     private Member member;
@@ -47,6 +49,8 @@ public class Order {
     @OneToMany(mappedBy = "order" ,  fetch = FetchType.LAZY, cascade = ALL,  orphanRemoval = true)
     List<OrderItem> orderItemList = new ArrayList<>();
 
+
+    private int paidCheck;
 
     private boolean isPaid; // 결제여부
 
@@ -58,7 +62,30 @@ public class Order {
         orderItem.setOrder(this);
 
         this.orderItemList.add(orderItem);
+
     }
+
+    // 여기부터
+
+    public void setIsPaid(boolean a){
+        if(a){
+            this.isPaid = true;
+        }
+    }
+
+    public void setPaymentDone() {
+        payDate = LocalDateTime.now();
+
+        for (OrderItem orderItem : orderItemList) {
+            orderItem.setPaymentDone();
+        }
+
+        isPaid = true;
+
+        // 디버깅용 로그
+        System.out.println("Payment Done. paidCheck set to 1");
+    }
+    // 여기까지 수정
 
     public Long totalPrice(){
         Long totalPrice = 0L;

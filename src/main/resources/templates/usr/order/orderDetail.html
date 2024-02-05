@@ -39,7 +39,7 @@
     <div class="my-3 border-solid border border-slate-600">
       <div class="py-5 border-solid">
         <span>배송지</span>
-        <a href="#" onclick="window.open('/delivery/addressList', '_blank', 'width=900,height=1000');">배송지 선택</a>
+        <a class="btn btn-outline btn-sm" href="#" onclick="window.open('/delivery/addressList', '_blank', 'width=900,height=1000');">배송지 선택</a>
       </div>
 
 
@@ -79,9 +79,9 @@
               <div class="card-body">
                 <h2 class="card-title" th:text="${orderItem.goods.goodsName}"></h2>
 
-                <div class="card-actions justify-end">
-                  <button class="btn btn-primary">Buy Now</button>
-                </div>
+<!--                <div class="card-actions justify-end">-->
+<!--                  <button class="btn btn-primary">Buy Now</button>-->
+<!--                </div>-->
               </div>
             </a>
           </div>

@@ -54,6 +54,7 @@ public class OrderService {
         Order order = Order
                 .builder()
                 .member(buyer)
+                .paidCheck(0) // 이 부분이 0이면 결제 안한애들
                 .build();
 
         for(OrderItem orderItem : orderItemList){
@@ -73,5 +74,20 @@ public class OrderService {
 
     public Optional<Order> findById(Long id){
         return orderRepository.findById(id);
+    }
+
+    public List<Order> findPaidOrdersByMemberId(Long id) {
+        return orderRepository.findPaidOrdersByMemberId(id);
+    }
+
+    @Transactional
+    public RsData payDone(Order order) {
+        order.setPaymentDone();
+        orderRepository.save(order);
+
+        // 디버깅용 로그
+        System.out.println("Order saved!");
+
+        return RsData.of("S-1", "결제 성공");
     }
 }

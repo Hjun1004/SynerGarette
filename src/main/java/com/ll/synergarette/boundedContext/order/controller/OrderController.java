@@ -92,6 +92,30 @@ public class OrderController {
         return "usr/order/orderDetail";
     }
 
+    @GetMapping("/complete/{id}")
+    public String orderComplete(@PathVariable Long id, Model model){
+
+        Order order = orderService.findById(id).orElse(null);
+
+        List<OrderItem> orderItemList = order.getOrderItemList();
+
+        model.addAttribute("completeOrder", order);
+        model.addAttribute("completeOrderItemList", orderItemList);
+
+        return "usr/order/orderComplete";
+    }
+
+    @GetMapping("/list")
+    public String completeOrderList(Model model){
+        Member member = rq.getMember();
+
+        List<Order> paidOrderList = orderService.findPaidOrdersByMemberId(member.getId());
+
+        model.addAttribute("paidOrderList", paidOrderList);
+
+        return"/usr/order/paidList";
+    }
+
     @RequestMapping("/{id}/success")
     public String confirmPayment(@PathVariable Long id,
                                  @RequestParam String orderId,
@@ -135,8 +159,24 @@ public class OrderController {
 
 //            orderService.payByTossPayments(order, payPriceRestCash);
 
+//            order.setPaid(true);
+            System.out.println("이거 보이면 결제 성공");
+            System.out.println("오더 이름은 = " + order.getName());
+
+            RsData orderRsData = orderService.payDone(order);
+            // 디버깅용 로그
+            System.out.println("setPaymentDone() called");
+
+//            order.setPaymentDone();
+
+
+//            return rq.redirectWithMsg(
+//                    "/order/%d".formatted(order.getId()),
+//                    "%d번 주문이 결제처리되었습니다.".formatted(order.getId())
+//            );
+
             return rq.redirectWithMsg(
-                    "/order/%d".formatted(order.getId()),
+                    "/order/complete/%d".formatted(order.getId()),
                     "%d번 주문이 결제처리되었습니다.".formatted(order.getId())
             );
         } else {

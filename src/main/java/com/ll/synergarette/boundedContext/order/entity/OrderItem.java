@@ -29,6 +29,10 @@ public class OrderItem {
 
     private Long goodsPrice;
 
+    private int paidCheck;
+
+    private boolean isPaid;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Goods goods;
 
@@ -36,5 +40,13 @@ public class OrderItem {
         this.goods = goodsItem;
         this.goodsPrice = goodsItem.getGoodsPrice();
     }
+
+
+    // 이 부분 수정
+    public void setPaymentDone() {
+        this.isPaid = true;
+        this.payDate = LocalDateTime.now();
+    }
+    // 위 까지
 
 }

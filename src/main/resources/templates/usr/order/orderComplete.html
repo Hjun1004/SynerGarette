@@ -1,0 +1,43 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>시너가렛</title>
+
+
+</head>
+
+<body>
+
+<main layout:fragment="main"><div class="container mx-5">
+
+    <div class="text-2xl">주문이 완료되었습니다.</div>
+
+    <br>
+    <br></br>
+
+    <i class="fa-solid fa-list-ol"></i>
+    주문한 상품 정보
+
+    <div th:if="${!#lists.isEmpty(orderItemList)}">
+        <div th:each="orderItem : ${completeOrderItemList}" class="mt-5">
+            <a class="card bg-base-100 shadow-xl border " th:href="@{|/goods/${orderItem.goods.id}|}">
+                <figure></figure>
+                <div class="card-body">
+                    <h2 class="card-title" th:text="${orderItem.goods.goodsName}"></h2>
+
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-3 text-2xl" th:text="| 결제 금액: ${completeOrder.totalPrice} 원|"></div>
+
+
+
+</div>
+
+
+</main>
+
+</body>
+</html>
