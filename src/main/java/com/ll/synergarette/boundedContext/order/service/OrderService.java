@@ -90,4 +90,8 @@ public class OrderService {
 
         return RsData.of("S-1", "결제 성공");
     }
+
+    public Order findByIdAndPaid(Long id) {
+        return orderRepository.findByIdAndIsPaid(id, true);
+    }
 }

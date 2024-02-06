@@ -105,6 +105,17 @@ public class OrderController {
         return "usr/order/orderComplete";
     }
 
+    @GetMapping("/completeOrder/{id}")
+    public String completeOrderDetail(@PathVariable Long id, Model model){
+        Member member = rq.getMember();
+        Order order = orderService.findByIdAndPaid(id);
+
+        model.addAttribute("member", member);
+        model.addAttribute("completeOrder", order);
+
+        return "/usr/order/completeOrderDetail";
+    }
+
     @GetMapping("/list")
     public String completeOrderList(Model model){
         Member member = rq.getMember();

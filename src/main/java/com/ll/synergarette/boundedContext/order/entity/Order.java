@@ -49,6 +49,8 @@ public class Order {
     @OneToMany(mappedBy = "order" ,  fetch = FetchType.LAZY, cascade = ALL,  orphanRemoval = true)
     List<OrderItem> orderItemList = new ArrayList<>();
 
+    private Long trackingNumber;
+
 
     private int paidCheck;
 
