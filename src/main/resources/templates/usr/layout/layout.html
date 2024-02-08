@@ -56,6 +56,10 @@
             <a th:href="@{/order/list}">주문/배송 조회</a>
           </li>
 
+          <li th:if="${@rq.admin}">
+            <a th:href="@{/delivery/management}">주문 관리</a>
+          </li>
+
 <!--          <li>-->
 <!--            <details>-->
 <!--              <summary>Parent</summary>-->

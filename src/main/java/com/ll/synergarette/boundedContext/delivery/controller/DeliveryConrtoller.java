@@ -15,6 +15,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,11 +33,14 @@ public class DeliveryConrtoller {
 
     private final MyPageService myPageService;
     private final Rq rq;
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/addAddressForm")
     public String showAddAddressForm(DeliveryForm deliveryForm){
         return "usr/delivery/deliveryForm";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/addAddressForm")
     public String showAddAddressForm(@Valid DeliveryForm deliveryForm, BindingResult bindingResult, Principal principal){
         if(bindingResult.hasErrors()){
@@ -50,6 +55,7 @@ public class DeliveryConrtoller {
         return rq.redirectWithMsg("/", "배송지가 등록되었습니다.");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/addressList")
     public String addressList(Model model){
         Member member = rq.getMember();
@@ -68,6 +74,7 @@ public class DeliveryConrtoller {
         private final Long nowDelivery;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/selectAddress")
     @ResponseBody
     public String selectAddress(@Valid DeliveryIdForm deliveryIdForm, BindingResult bindingResult, Principal principal){
@@ -87,6 +94,15 @@ public class DeliveryConrtoller {
 
 
         return "배송지 지정 완료";
+    }
+
+
+
+    @PreAuthorize("hasAuthority('admin')") // admin 권한을 가진 사람만 접근 가능하다는 뜻
+    @GetMapping("/management")
+    public String showManagement(Model model){
+
+        return "adm/delivery/management";
     }
 
 }
