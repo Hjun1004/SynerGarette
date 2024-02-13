@@ -10,6 +10,8 @@ import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
 import com.ll.synergarette.boundedContext.mypage.repository.MyPageRepository;
 import com.ll.synergarette.boundedContext.mypage.service.MyPageService;
+import com.ll.synergarette.boundedContext.order.entity.Order;
+import com.ll.synergarette.boundedContext.order.service.OrderService;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -30,6 +32,8 @@ import java.util.List;
 @RequestMapping("/delivery")
 public class DeliveryConrtoller {
     private final DeliveryService deliveryService;
+
+    private final OrderService orderService;
 
     private final MyPageService myPageService;
     private final Rq rq;
@@ -98,11 +102,6 @@ public class DeliveryConrtoller {
 
 
 
-    @PreAuthorize("hasAuthority('admin')") // admin 권한을 가진 사람만 접근 가능하다는 뜻
-    @GetMapping("/management")
-    public String showManagement(Model model){
 
-        return "adm/delivery/management";
-    }
 
 }

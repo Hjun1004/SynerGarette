@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.synergarette.base.rq.Rq;
 import com.ll.synergarette.base.rsData.RsData;
+import com.ll.synergarette.boundedContext.member.controller.MemberController;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
 import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
@@ -12,12 +13,17 @@ import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.order.exception.OrderIdNotMatchedException;
 import com.ll.synergarette.boundedContext.order.service.OrderService;
 import com.ll.synergarette.boundedContext.payment.config.TossPaymentConfig;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +36,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 
+import java.security.Principal;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -116,6 +123,51 @@ public class OrderController {
         return "/usr/order/completeOrderDetail";
     }
 
+    @PreAuthorize("hasAuthority('admin')") // admin 권한을 가진 사람만 접근 가능하다는 뜻
+    @GetMapping("/management")
+    public String showManagement(Model model){
+
+        List<Order> paidOrderList = orderService.findPaidOrders();
+
+        model.addAttribute("paidOrderList",paidOrderList);
+
+        return "adm/order/management";
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public class TrackingNumberForm{
+        @NotBlank
+        private String trackingNumber;
+    }
+
+    @PreAuthorize("hasAuthority('admin')") // admin 권한을 가진 사람만 접근 가능하다는 뜻
+    @GetMapping("/writeTrackingNumber/{id}")
+    public String writeTackingNumber(@PathVariable Long id , Model model, TrackingNumberForm trackingNumberForm){
+        Order order = orderService.findByIdAndPaid(id);
+
+        model.addAttribute("order", order);
+
+        return "adm/order/writeTrackingNumber";
+    }
+
+    @PreAuthorize("hasAuthority('admin')") // admin 권한을 가진 사람만 접근 가능하다는 뜻
+    @PostMapping("/writeTrackingNumber/{id}")
+    @ResponseBody
+    public String writeTrackingNumber(@Valid TrackingNumberForm trackingNumberForm, @PathVariable Long id ,BindingResult bindingResult, Model model, Principal principal){
+        if(bindingResult.hasErrors()){
+            return "adm/order/writeTrackingNumber";
+        }
+
+        Order order = orderService.findByIdAndPaid(id);
+
+        order = orderService.writeTrackingNumber(order ,trackingNumberForm.trackingNumber);
+
+
+
+        return "송장 번호 등록 -완-";
+    }
+
     @GetMapping("/list")
     public String completeOrderList(Model model){
         Member member = rq.getMember();
@@ -179,7 +231,6 @@ public class OrderController {
             System.out.println("setPaymentDone() called");
 
 //            order.setPaymentDone();
-
 
 //            return rq.redirectWithMsg(
 //                    "/order/%d".formatted(order.getId()),

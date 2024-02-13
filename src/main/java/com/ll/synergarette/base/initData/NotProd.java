@@ -9,11 +9,17 @@ import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.goods.service.GoodsService;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
+import com.ll.synergarette.boundedContext.order.entity.Order;
+import com.ll.synergarette.boundedContext.order.entity.OrderItem;
+import com.ll.synergarette.boundedContext.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @Profile({"dev", "test"})
@@ -32,7 +38,8 @@ public class NotProd {
             MemberService memberService,
             GoodsService goodsService,
             CartItemService cartItemService,
-            DeliveryService deliveryService
+            DeliveryService deliveryService,
+            OrderService orderService
     ){
         return new CommandLineRunner() {
             @Override
@@ -59,6 +66,13 @@ public class NotProd {
 
                 DeliveryAddress deliveryAddress_First = deliveryService.addDelivery_For_NotProd(memberUser1, "허준홍", "집", "01077777777", "13529", "경기도 성남시 분당구 판교역로 166", "카카오 판교 아지트", "백현동");
                 DeliveryAddress deliveryAddress_Second = deliveryService.addDelivery_For_NotProd(memberUser1, "정예준", "집", "01088888888", "46772", "부산 강서구 명지국제6로 168", "스타필드", "명지동 3438");
+
+                List<OrderItem> orderItemListByUser1 = new ArrayList<>();
+                orderItemListByUser1.add(new OrderItem(fifthGoodsItem));
+                orderItemListByUser1.add(new OrderItem(thirdGoodsItem));
+
+                Order order1ByUser1 = orderService.create(memberUser1, orderItemListByUser1).getData();
+                 orderService.payDone(order1ByUser1);
             }
         };
     }

@@ -1,0 +1,68 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+  <title>Title</title>
+
+</head>
+
+<body>
+
+<main layout:fragment="main">
+
+  <script th:inline="javascript">
+    const orderId = /*[[ ${order.id} ]]*/ null;
+  </script>
+
+  <div class="container mx-5">
+    송장번호 입력 페이지
+
+    <form th:action="@{/order/writeTrackingNumber}" method="POST" th:object="${trackingNumberForm}">
+      <div>
+        <div class="mb-3">
+          <label  for="trackingNumber" class="form-label">송장번호 입력</label>
+          <input required maxlength="200" autocomplete="off" type="text" placeholder="송장번호"
+                 class="form-control border" th:field="*{trackingNumber}">
+          <!--
+          th:field="*{subject}" ==> id="subject" name="subject" th:value="*{subject}"
+          -->
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success my-2" id="submitBtn">송장번호 저장</button>
+    </form>
+  </div>
+
+  <script th:inline="javascript">
+        $(document).ready(function () {
+            // 버튼 클릭 시
+            $("#submitBtn").click(function (event) {
+                // 기본 동작 방지
+                event.preventDefault();
+
+                // 폼 데이터를 비동기적으로 전송
+                $.ajax({
+                    type: "POST",
+                    url: "/order/writeTrackingNumber/[[ ${order.id} ]]",
+                    data: $("form").serialize(),
+                    success: function (data) {
+                        // 서버에서 반환된 데이터를 처리 (필요에 따라 추가 작업 수행 가능)
+
+                        // 현재 창 닫기
+                        window.opener.location.reload(); // 부모 창 새로고침
+                        window.close();
+                    },
+                    error: function (error) {
+                        // 오류 처리 (필요에 따라 추가 작업 수행 가능)
+                        console.error("Error:", error);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+</main>
+
+</body>
+</html>

@@ -9,7 +9,6 @@ import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,5 +92,16 @@ public class OrderService {
 
     public Order findByIdAndPaid(Long id) {
         return orderRepository.findByIdAndIsPaid(id, true);
+    }
+
+    public List<Order> findPaidOrders() {
+        return orderRepository.findPaidOrders();
+    }
+
+    @Transactional
+    public Order writeTrackingNumber(Order order, String trackingNumber) {
+        order.setTrackingNumber(trackingNumber);
+
+        return order;
     }
 }

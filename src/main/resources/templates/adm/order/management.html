@@ -1,0 +1,88 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>Title</title>
+
+</head>
+
+<body>
+
+<main layout:fragment="main">
+    <div class="container mx-5">
+        배송관리 페이지 입니다.
+
+        <div class="overflow-x-auto">
+            <table class="table">
+                <!-- head -->
+                <thead>
+                <tr>
+                    <th>주문 날짜</th>
+                    <th>주문 이름</th>
+                    <th>주문 가격</th>
+                    <th>계정</th>
+                    <th>배송 현황</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <div th:each="paidOrder, status : ${paidOrderList}">
+                    <tr>
+                        <th th:text="${#temporals.format(paidOrder.payDate, 'yyyy-MM-dd HH:mm')}"></th>
+                        <td><a th:href="@{|/order/completeOrder/${paidOrder.id}|}" th:text="${paidOrder.name}"></a></td>
+                        <td th:text="${paidOrder.totalPrice}"></td>
+                        <td th:text="${paidOrder.member.username}"></td>
+                        <td>
+                            <div th:if="${paidOrder.trackingNumber == null}">
+                                물품 준비중
+                                <script th:inline="javascript">
+                                    function openTrackingWindow(orderId) {
+                                        // 여기서 필요한 추가 로직을 구현할 수 있습니다.
+                                        var trackingUrl = '/order/writeTrackingNumber/' + orderId;
+                                        window.open(trackingUrl, '_blank', 'width=900,height=1000');
+                                    }
+                                </script>
+
+                                <a class="btn btn-outline btn-success btn-sm ml-1" href="#" th:onclick="window.open('/order/writeTrackingNumber/[[${paidOrder.id}]]', '_blank', 'width=900,height=1000');">송장번호 입력</a>
+<!--                                <a class="btn btn-outline btn-success btn-sm ml-1" href="#" th:onclick="openTrackingWindow(${paidOrder.id});">송장번호 입력</a>-->
+                            </div>
+                            <div th:if="${paidOrder.trackingNumber != null}">
+                                배송중
+                                <button class="btn btn-primary">배송 조회</button>
+                            </div>
+                        </td>
+<!--                        <div th:if="${paidOrder.trackingNumber == null}">-->
+<!--                            <td th:text="|물품 준비중|"></td>-->
+<!--                            <button class="btn btn-primary btn-small">송장번호 입력</button>-->
+<!--                        </div>-->
+<!--                        <td th:if="${paidOrder.trackingNumber == null}" th:text="|물품 준비중|"></td>-->
+<!--                        <td th:if="${paidOrder.trackingNumber != null}" th:text="배송중"><div><button class="btn btn-primary">배송 조회</button></div></td>-->
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<!--    <div th:if="${!#lists.isEmpty(paidOrderList)}">-->
+<!--        <div class="flex flex-row flex-wrap">-->
+<!--            <div th:each="paidOrder : ${paidOrderList}">-->
+<!--                <a class="card bg-base-100 shadow-xl border mt-5" th:href="@{|/order/${paidOrder.id}|}">-->
+<!--                    <figure></figure>-->
+<!--                    <div class="card-body">-->
+<!--                        <h2 class="card-title" th:text="${paidOrder.name}"></h2>-->
+
+<!--                        <div th:text="${paidOrder.totalPrice}"></div>-->
+
+<!--                        <div class="card-actions justify-end">-->
+<!--                            <button class="btn btn-primary">Buy Now</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</main>
+
+</body>
+</html>

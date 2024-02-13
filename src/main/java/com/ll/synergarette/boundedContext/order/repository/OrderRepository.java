@@ -17,4 +17,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //    Order findByIdAndPaid(Long id, boolean a);
 
     Order findByIdAndIsPaid(Long id, boolean a);
+
+    @Query("SELECT o FROM Order o JOIN FETCH o.orderItemList WHERE o.isPaid = true")
+    List<Order> findPaidOrders();
 }
