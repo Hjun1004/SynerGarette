@@ -17,6 +17,11 @@ public class MyPageService {
     public RsData<MyPage> setNowAddress(Member member, DeliveryAddress deliveryAddress) {
         MyPage myPage = member.getMyPage();
 
+        System.out.println("지금 주소 설정 중이에요");
+
+        if(myPage.isEmpty()){
+            System.out.println("마이페이지 비었어요");
+        }
 
         myPage.setDeliveryAddress(deliveryAddress);
 

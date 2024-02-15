@@ -4,6 +4,7 @@ import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
 import com.ll.synergarette.boundedContext.delivery.entity.DeliveryForm;
 import com.ll.synergarette.boundedContext.delivery.repository.DeliveryRepository;
 import com.ll.synergarette.boundedContext.member.entity.Member;
+import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

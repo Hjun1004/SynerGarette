@@ -47,7 +47,7 @@
                             </div>
                             <div th:if="${paidOrder.trackingNumber != null}">
                                 배송중
-                                <button class="btn btn-primary">배송 조회</button>
+                                <a class="btn btn-outline btn-success btn-sm ml-1" href="#" th:onclick="window.open('http://nplus.doortodoor.co.kr/web/detail.jsp?slipno=${paidOrder.trackingNumber}', '_blank', 'width=900,height=1000');">배송 조회</a>
                             </div>
                         </td>
 <!--                        <div th:if="${paidOrder.trackingNumber == null}">-->
@@ -62,25 +62,6 @@
             </table>
         </div>
     </div>
-
-<!--    <div th:if="${!#lists.isEmpty(paidOrderList)}">-->
-<!--        <div class="flex flex-row flex-wrap">-->
-<!--            <div th:each="paidOrder : ${paidOrderList}">-->
-<!--                <a class="card bg-base-100 shadow-xl border mt-5" th:href="@{|/order/${paidOrder.id}|}">-->
-<!--                    <figure></figure>-->
-<!--                    <div class="card-body">-->
-<!--                        <h2 class="card-title" th:text="${paidOrder.name}"></h2>-->
-
-<!--                        <div th:text="${paidOrder.totalPrice}"></div>-->
-
-<!--                        <div class="card-actions justify-end">-->
-<!--                            <button class="btn btn-primary">Buy Now</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 
 </main>
 

@@ -9,6 +9,8 @@ import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.goods.service.GoodsService;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
+import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
+import com.ll.synergarette.boundedContext.mypage.service.MyPageService;
 import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.order.service.OrderService;
@@ -39,7 +41,8 @@ public class NotProd {
             GoodsService goodsService,
             CartItemService cartItemService,
             DeliveryService deliveryService,
-            OrderService orderService
+            OrderService orderService,
+            MyPageService myPageService
     ){
         return new CommandLineRunner() {
             @Override
@@ -72,7 +75,16 @@ public class NotProd {
                 orderItemListByUser1.add(new OrderItem(thirdGoodsItem));
 
                 Order order1ByUser1 = orderService.create(memberUser1, orderItemListByUser1).getData();
-                 orderService.payDone(order1ByUser1);
+                orderService.payDone(order1ByUser1);
+
+//                DeliveryAddress deliveryAddressByUser1 = deliveryService.findById(deliveryAddress_First.getId()).orElse(null);
+//
+//                MyPage myPageByUser1 = memberUser1.getMyPage();
+//
+//                myPageByUser1.setDeliveryAddress(deliveryAddressByUser1);
+
+                myPageService.setNowAddress(memberUser1, deliveryAddress_First).getData();
+                System.out.println("현재 배송지 지정 완료");
             }
         };
     }

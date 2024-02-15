@@ -94,9 +94,6 @@ public class DeliveryConrtoller {
 
         MyPage myPage = myPageService.setNowAddress(member, deliveryAddress).getData();
 
-
-
-
         return "배송지 지정 완료";
     }
 
