@@ -61,4 +61,12 @@ public class AdminGoodsController {
         return rq.redirectWithMsg("/goods/list", rsdata.getMsg());
     }
 
+    @PreAuthorize("hasAuthority('admin')") // admin 권한을 가진 사람만 접근 가능하다는 뜻
+    @GetMapping("/delete/{id}")
+    public String deleteGoods(@PathVariable Long id){
+        RsData rsDataGoods = goodsService.deleteGoods(id);
+
+        return rq.redirectWithMsg("/", rsDataGoods.getMsg());
+    }
+
 }

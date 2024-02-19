@@ -18,6 +18,11 @@
 
   <div class="container mx-5">
 
+    <div class="flex justify-end">
+      <a class="btn btn-outline btn-sm" th:href="@{|/adm/goods/delete/${goodsItem.id}|}" th:if="${@rq.isAdmin}"> 삭제하기 </a>
+    </div>
+
+
     <div th:text="${goodsItem.goodsName}"></div>
 
     <div class="mb-3" th:text="${goodsItem.goodsPrice}"></div>

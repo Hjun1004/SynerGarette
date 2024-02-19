@@ -11,13 +11,12 @@
 
 
 
-  <div class="container mx-5">
+  <div class="container px-5">
 
     <h1 class="mb-4" th:if="${!#lists.isEmpty(goodsList)}">
       <i class="fa-solid fa-list-ol"></i>
       상품목록
     </h1>
-
 
 
 <!--    <div th:if="${!#lists.isEmpty(goodsList)}">-->
@@ -42,15 +41,12 @@
 <!--      </div>-->
 <!--    </div>-->
 
-
-
-
 <!--    style="width: 25%;"-->
 
       <div th:if="${!#lists.isEmpty(goodsList)}">
         <div class="flex flex-row flex-wrap">
             <div th:each="goodsItem : ${goodsList}">
-              <a class="card bg-base-100 shadow-xl border mt-5" th:href="@{|/goods/${goodsItem.id}|}">
+              <a class="card bg-base-100 shadow-xl border mt-5 mr-5 w-60 h-80" th:href="@{|/goods/${goodsItem.id}|}">
                 <figure></figure>
                 <div class="card-body">
                   <h2 class="card-title" th:text="${goodsItem.goodsName}"></h2>

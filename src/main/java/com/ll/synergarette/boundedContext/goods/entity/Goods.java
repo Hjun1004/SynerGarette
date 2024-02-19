@@ -4,6 +4,7 @@ import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
 import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.review.entity.Review;
+import io.micrometer.observation.annotation.Observed;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -53,5 +54,9 @@ public class Goods {
     @OneToMany(mappedBy = "goodsItem", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<CartItem> cartItemList = new ArrayList<>(); // 해당 상품이 장바구니에 담긴 리스트들?
+
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    private List<OrderItem> orderItemList = new ArrayList<>(); // 해당 상품이 장바구니에 담긴 리스트들?
 
 }
