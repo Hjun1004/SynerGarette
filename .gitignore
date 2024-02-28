@@ -38,3 +38,4 @@ out/
 
 ###Custom###
 application-secret.yml
+/src/main/java/com/ll/synergarette/base/initData/NotProd.java

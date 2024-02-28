@@ -1,23 +1,143 @@
 <html layout:decorate="~{usr/layout/layout.html}">
 
 <head>
-    <title>Title</title>
-
+    <title>SynerGarette [시너가렛]</title>
 </head>
 
 <body>
 
 <main layout:fragment="main">
-    <div class="hero min-h-screen bg-base-200">
-        <div class="hero-content flex-col lg:flex-row">
-            <img src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" class="max-w-sm rounded-lg shadow-2xl" />
-            <div>
-                <h1 class="text-5xl font-bold">Box Office News!</h1>
-                <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                <button class="btn btn-primary">Get Started</button>
-            </div>
+
+<!--    <img src="src/main/resources/static/resource/common/images/synergaretteLogo.png">-->
+    <div class="carousel w-full mb-10">
+        <div id="item1" class="carousel-item w-full">
+            <img src="/resource/common/images/synergaretteLogo.png" class="w-full" />
         </div>
     </div>
+
+    <!--    <div class="hero min-h-screen bg-base-200">-->
+<!--        <div class="hero-content flex-col lg:flex-row">-->
+<!--            <img src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" class="max-w-sm rounded-lg shadow-2xl" />-->
+<!--            <div>-->
+<!--                <h1 class="text-5xl font-bold">Box Office News!</h1>-->
+<!--                <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>-->
+<!--                <button class="btn btn-primary">Get Started</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="mx-3" th:if="${!#lists.isEmpty(linksList)}">
+        <div class="flex flex-col items-center"> <!-- 중앙 정렬을 위해 items-center 추가 -->
+            <div th:each="links : ${linksList}" class="flex flex-row border-2 border-slate-950 w-full max-w-3xl h-20 mb-4"> <!-- 여백을 위해 mb-4 추가 -->
+
+                <a th:href="@{${links.urlLinks}|}" class="flex w-full h-full dark:hover:bg-gray-300 light:hover:bg-slate-400 p-2"> <!-- space-x-4는 이미지와 텍스트 사이의 간격을 조절합니다 -->
+                    <div class="flex-none w-14"> <!-- 이미지를 왼쪽에 정렬하기 위해 flex 및 items-center 추가 -->
+
+                        <div class="flex items-center h-full">
+                            <th:block th:if="${!links.isBrands()} and ${!links.isImageUrls()}">
+<!--                                <img src="/resource/common/images/youtube_social_icon_red.png">-->
+<!--                                <img src="https://img.youtube.com/vi/fPV5MAe5PK4/0.jpg">-->
+                            </th:block>
+
+                            <th:block th:unless="${!links.isBrands()} and ${!links.isImageUrls()}">
+
+                                <th:block th:if="${links.isBrands()} and ${!links.isImageUrls()}">
+                                    <th:block th:if="${links.brand} == 'youtube'">
+                                        <img src="/resource/common/images/youtube_social_icon_red.png">
+                                        <!--                                    <img src="https://img.youtube.com/vi/fPV5MAe5PK4/0.jpg">-->
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == instagram">
+                                        <img src="/resource/common/images/Instagram_Glyph_Gradient.png">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == melon">
+                                        <img src="/resource/common/images/melon_symbol_screen_green.png" style="width: 50px; height: 56px;">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == spotify">
+                                        <img src="/resource/common/images/spotify-logos-idyE-PQqf2.png">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == vibe">
+                                        <img src="/resource/common/images/vibe.png">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == youtubeMusic">
+                                        <img src="/resource/common/images/youtubeMusic.png">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == appleMusic">
+                                        <img src="/resource/common/images/appleMusic.png">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == bugs">
+                                        <img src="/resource/common/images/bugs.png">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == flo">
+                                        <img src="/resource/common/images/flo.png">
+                                    </th:block>
+                                </th:block>
+
+                                <th:block th:if="${links.isBrands()} and ${links.isImageUrls()}">
+                                    <th:block th:if="${links.brand} == 'youtube'">
+                                        <img th:src="${links.imageUrl}">
+                                        <!--                                    <img src="https://img.youtube.com/vi/fPV5MAe5PK4/0.jpg">-->
+                                    </th:block>
+                                </th:block>
+
+
+                            </th:block>
+                        </div>
+                    </div>
+
+                    <div class="grow">
+                        <div class="flex items-center justify-center w-full h-full">
+                            <div th:text="${links.linksName}"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex-none w-14">
+                    </div>
+                </a>
+
+<!--                <a th:href="@{${links.urlLinks}|}" class="flex items-center justify-center w-full h-full"> &lt;!&ndash; 가운데 정렬을 위해 flex 및 justify-center, items-center 추가 &ndash;&gt;-->
+<!--                    <div class="content-center">-->
+<!--                        <div class="flex items-center h-full">-->
+<!--                            <img src="/resource/common/images/youtube_social_icon_red.png">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div th:text="${links.linksName}"></div>-->
+<!--                </a>-->
+
+
+            </div>
+        </div>
+<!--        <div class="flex flex-col items-center">-->
+<!--            <div th:each="links : ${linksList}">-->
+
+<!--                <div class="border-2 w-3/5 h-20">-->
+<!--                    <a th:href="@{${links.urlLinks}|}">-->
+<!--                        <div th:text="${links.linksName}"></div>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+
 
 <!--    <div>-->
 <!--        시너가렛 메인입니다.-->

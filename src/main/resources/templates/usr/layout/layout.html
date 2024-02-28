@@ -1,84 +1,14 @@
 <html layout:decorate="~{common/layout.html}">
 
+<head>
+
+</head>
+
 <body>
 
-<header layout:fragment="header">
-  <div class="mx-5 my-3">
-<!--    <div class="navbar border-solid border-2 rounded-lg border-slate-800 bg-base-100">-->
+<header class="sticky top-0 z-50" layout:fragment="header">
 
-<!--      <div class="navbar-start">-->
-<!--        <div class="dropdown">-->
-<!--          <div tabindex="0" role="button" class="btn btn-ghost md:hidden">-->
-<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>-->
-<!--          </div>-->
-<!--          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">-->
-<!--            <li><a>Item 1</a></li>-->
-<!--            <li>-->
-<!--              <a>Parent</a>-->
-<!--              <ul class="p-2">-->
-<!--                <li><a>Submenu 1</a></li>-->
-<!--                <li><a>Submenu 2</a></li>-->
-<!--              </ul>-->
-<!--            </li>-->
-<!--            <li><a>Item 3</a></li>-->
-<!--          </ul>-->
-<!--        </div>-->
-
-<!--        <a th:href="@{/}" class="btn btn-ghost text-xl">SynerGarette</a>-->
-
-<!--      </div>-->
-
-<!--      <div class="navbar-center hidden md:flex">-->
-<!--        <ul class="menu menu-horizontal px-1">-->
-
-<!--          <li>-->
-<!--            <a th:href="@{/goods/list}">상품</a>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <a th:href="@{/usr/member/login}" th:if="${@rq.logout}">로그인</a>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <a th:href="@{/usr/member/mypage}" th:if="${@rq.login}">내 페이지</a>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <a href="javascript:;" th:if="${@rq.login}" onclick="$(this).next().submit();">로그아웃</a>-->
-<!--            <form th:if="${@rq.login}" hidden th:action="|/usr/member/logout|" method="POST"></form>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <a th:href="@{/cartItem/items}">장바구니</a>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <a th:href="@{/order/list}">주문/배송 조회</a>-->
-<!--          </li>-->
-
-<!--          <li th:if="${@rq.admin}">-->
-<!--            <a th:href="@{/order/management}">주문 관리</a>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <details>-->
-<!--              <summary>Parent</summary>-->
-<!--              <ul class="p-2">-->
-<!--                <li><a th:href="@{/cartItem/items}">장바구니</a></li>-->
-<!--                <li><a>Submenu 2</a></li>-->
-<!--              </ul>-->
-<!--            </details>-->
-<!--          </li>-->
-
-<!--        </ul>-->
-<!--      </div>-->
-
-<!--      <div class="navbar-end">-->
-<!--        <a th:href="@{/adm/goods/create}" class="btn" th:if="${@rq.isAdmin}">상품 등록</a>-->
-<!--      </div>-->
-<!--    </div>-->
-
-    <div class="navbar bg-base-100 border-solid border-2 rounded-lg border-slate-800">
+    <div class="navbar bg-inherit border-solid border-2 rounded-lg border-slate-800 my-3">
       <div class="navbar-start">
         <div class="dropdown">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
@@ -121,24 +51,39 @@
         <a th:href="@{/}" class="btn btn-ghost text-xl">SynerGarette</a>
       </div>
 
-          <div class="navbar-end">
-            <a th:href="@{/adm/goods/create}" class="btn" th:if="${@rq.isAdmin}">상품 등록</a>
-<!--            <button class="btn btn-ghost btn-circle">-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>-->
-<!--            </button>-->
-<!--            <button class="btn btn-ghost btn-circle">-->
-<!--              <div class="indicator">-->
-<!--                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>-->
-<!--                <span class="badge badge-xs badge-primary indicator-item"></span>-->
-<!--              </div>-->
-<!--            </button>-->
+      <div class="navbar-end" >
+        <div class="hidden lg:flex" th:if="${@rq.isAdmin}">
+          <a th:href="@{/adm/goods/create}" class="btn border-solid border-2 rounded-lg border-slate-800 mr-3" th:if="${@rq.isAdmin}">상품 등록</a>
+
+          <a th:href="@{/adm/links/registration}" class="btn border-solid border-2 rounded-lg border-slate-800" th:if="${@rq.isAdmin}">링크 등록</a>
+        </div>
+
+        <div class="dropdown dropdown-end" th:if="${@rq.isAdmin}">
+
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
           </div>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-40">
+            <li>
+              <a th:href="@{/adm/goods/create}" th:if="${@rq.isAdmin}">상품 등록</a>
+            </li>
+
+            <li>
+              <a th:href="@{/adm/links/registration}" th:if="${@rq.isAdmin}">링크 등록</a>
+            </li>
+          </ul>
+        </div>
+        <!--            <button class="btn btn-ghost btn-circle">-->
+        <!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>-->
+        <!--            </button>-->
+        <!--            <button class="btn btn-ghost btn-circle">-->
+        <!--              <div class="indicator">-->
+        <!--                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>-->
+        <!--                <span class="badge badge-xs badge-primary indicator-item"></span>-->
+        <!--              </div>-->
+        <!--            </button>-->
+      </div>
     </div>
-
-
-
-
-  </div>
 
 
 

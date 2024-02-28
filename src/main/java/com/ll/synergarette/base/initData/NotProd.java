@@ -7,6 +7,8 @@ import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
 import com.ll.synergarette.boundedContext.delivery.service.DeliveryService;
 import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.goods.service.GoodsService;
+import com.ll.synergarette.boundedContext.links.entity.Links;
+import com.ll.synergarette.boundedContext.links.service.LinksService;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
 import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
@@ -42,7 +44,8 @@ public class NotProd {
             CartItemService cartItemService,
             DeliveryService deliveryService,
             OrderService orderService,
-            MyPageService myPageService
+            MyPageService myPageService,
+            LinksService linksService
     ){
         return new CommandLineRunner() {
             @Override
@@ -85,6 +88,21 @@ public class NotProd {
 
                 myPageService.setNowAddress(memberUser1, deliveryAddress_First).getData();
                 System.out.println("현재 배송지 지정 완료");
+
+                Links synergaretteYoutubeMain = linksService.registrationLinks("[ Synergarette Youtube ]", "https://www.youtube.com/@synergarette").getData();
+                Links synergaretteDivision = linksService.registrationLinks("Synergarette - Division ( Liveclip )", "https://www.youtube.com/watch?v=fPV5MAe5PK4").getData();
+                Links synergaretteYoutubeInvisibleDiary = linksService.registrationLinks("[ PV ] Synergarette - 'Invisible Diary'", "https://www.youtube.com/watch?v=AwAPR3qlOHI").getData();
+                Links synergaretteInstagram = linksService.registrationLinks("[ Synergarette Instagram ]", "https://www.instagram.com/synergarette/").getData();
+                Links buyInvisibleDiary = linksService.registrationLinks("EP 'Invisible Diary' 구매하기", "https://gimbabrecords.com/product/detail.html?product_no=22408&cate_no=29&display_group=1").getData();
+                Links invisibleDiaryYoutube = linksService.registrationLinks("[Playlist] Synergarette - Invisible Diary", "https://www.youtube.com/watch?v=EFgjPMCMS6E").getData();
+                Links synergaretteMelon = linksService.registrationLinks("Melon", "https://www.melon.com/album/detail.htm?albumId=11073332").getData();
+                Links synergaretteAppleMusic = linksService.registrationLinks("Apple Music", "https://music.apple.com/kr/artist/%EC%8B%9C%EB%84%88%EA%B0%80%EB%A0%9B/1648659020").getData();
+                Links synergaretteGenie = linksService.registrationLinks("Genie", "https://www.genie.co.kr/detail/albumInfo?axnm=83027040").getData();
+                Links synergaretteSpotify = linksService.registrationLinks("Spotify", "https://open.spotify.com/album/2yXfT5NkxMrkLxMyU9JShx").getData();
+//                Links synergaretteYoutubeMusic = linksService.registrationLinks("YoutubeMusic", "https://open.spotify.com/album/2yXfT5NkxMrkLxMyU9JShx").getData();
+                Links synergaretteFlo = linksService.registrationLinks("Flo", "https://www.music-flo.com/detail/album/409563050/albumtrack").getData();
+                Links synergaretteVibe = linksService.registrationLinks("Vibe", "https://vibe.naver.com/album/8175274").getData();
+                Links synergaretteBugs = linksService.registrationLinks("Bugs", "https://music.bugs.co.kr/album/20496510?wl_ref=list_ab_01_ar").getData();
             }
         };
     }
