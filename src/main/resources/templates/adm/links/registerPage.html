@@ -8,20 +8,20 @@
 
 <main layout:fragment="main">
 
-    <form th:action method="POST" class="flex flex-col gap-6">
+    <form th:action method="POST" th:object="${registerLinkForm}" class="flex flex-col gap-6" >
         <th:block th:if="true">
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">링크 이름</span>
                 </label>
-                <input type="text" name="linksName" placeholder="링크의 이름을 붙여주세요." class="input input-bordered" autofocus/>
+                <input type="text" th:field="*{linksName}" name="linksName" placeholder="링크의 이름을 붙여주세요." class="input input-bordered" autofocus/>
             </div>
 
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">URL입력</span>
                 </label>
-                <input type="text" name="urlLinks" placeholder="URL 입력" class="input input-bordered"/>
+                <input type="text" th:field="*{urlLinks}" name="urlLinks" placeholder="URL 입력" class="input input-bordered"/>
             </div>
 
             <button id="btn-join-1" class="btn btn-block btn-primary gap-1">

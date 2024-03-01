@@ -7,7 +7,6 @@
 <body>
 
 <main layout:fragment="main">
-
 <!--    <img src="src/main/resources/static/resource/common/images/synergaretteLogo.png">-->
     <div class="carousel w-full mb-10">
         <div id="item1" class="carousel-item w-full">
@@ -27,10 +26,16 @@
 <!--    </div>-->
 
     <div class="mx-3" th:if="${!#lists.isEmpty(linksList)}">
-        <div class="flex flex-col items-center"> <!-- 중앙 정렬을 위해 items-center 추가 -->
-            <div th:each="links : ${linksList}" class="flex flex-row border-2 border-slate-950 w-full max-w-3xl h-20 mb-4"> <!-- 여백을 위해 mb-4 추가 -->
+        <div class="flex flex-col items-center justify-center"> <!-- 중앙 정렬을 위해 items-center 추가 -->
+            <div th:each="links : ${linksList}" class="flex flex-row  w-full  h-20 mb-4 items-center justify-center"> <!-- 여백을 위해 mb-4 추가 -->
 
-                <a th:href="@{${links.urlLinks}|}" class="flex w-full h-full dark:hover:bg-gray-300 light:hover:bg-slate-400 p-2"> <!-- space-x-4는 이미지와 텍스트 사이의 간격을 조절합니다 -->
+
+                <div id="clickTest" class="flex flex-row border-2 border-slate-950 w-full max-w-3xl h-full dark:hover:bg-gray-300 light:hover:bg-slate-400 p-2"><!-- space-x-4는 이미지와 텍스트 사이의 간격을 조절합니다 -->
+                    <script th:inline="javascript">
+                        $("#clickTest").click(function(){
+                            window.open([[${links.urlLinks}]]);
+                        });
+                    </script>
                     <div class="flex-none w-14"> <!-- 이미지를 왼쪽에 정렬하기 위해 flex 및 items-center 추가 -->
 
                         <div class="flex items-center h-full">
@@ -86,8 +91,6 @@
                                         <!--                                    <img src="https://img.youtube.com/vi/fPV5MAe5PK4/0.jpg">-->
                                     </th:block>
                                 </th:block>
-
-
                             </th:block>
                         </div>
                     </div>
@@ -98,22 +101,102 @@
                         </div>
                     </div>
 
-                    <div class="flex-none w-14">
+                    <div class="flex-none w-14 h-full">
+                        <div class="dropdown dropdown-end" th:if="${@rq.isAdmin}">
+                            <div tabindex="0" role="button" class="btn btn-square btn-ghost" onclick="handleButtonClick(event)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+                            </div>
+
+                            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52" onclick="handleUlClick(event)">
+                                <li><a th:href="@{/adm/links/delete/{id}(id=${links.id})}" onclick="handleDeleteClick(event)" data-link-id="${links.id}">삭제하기</a></li>
+                                <li><a th:href="@{/adm/links/modify/{id}(id=${links.id})}" onclick="handleModifyClick(event)" data-link-id="${links.id}">수정하기</a></li>
+<!--                                <li><a onclick="handleSecondClick(event)">수정하기</a></li>-->
+                            </ul>
+                        </div>
+
+                        <script th:inline="javascript">
+                            function handleButtonClick(event) {
+                                event.stopPropagation();
+                                event.preventDefault(); // 이 부분은 이벤트의 기본 동작을 방지합니다.
+                                // 원하는 작업을 수행하세요.
+                            }
+                        </script>
+
+                        <script th:inline="javascript">
+                            function handleUlClick(event) {
+                                event.stopPropagation();
+                                event.preventDefault(); // 이 부분은 이벤트의 기본 동작을 방지합니다.
+                                // 원하는 작업을 수행하세요.
+                            }
+                        </script>
+
+                        <script th:inline="javascript">
+                            function handleDeleteClick(event) {
+                                event.stopPropagation();
+                                event.preventDefault();
+
+                                // data-link-id 속성을 통해 links.id 값을 가져옵니다.
+
+
+                                var linkId = event.target.href;
+
+                                console.log('삭제 클릭! Link ID:', linkId);
+
+                                location.href = linkId;
+
+                                // linkId를 이용하여 원하는 작업을 수행합니다.
+                            }
+                        </script>
+
+                        <script th:inline="javascript">
+                            function handleModifyClick(event) {
+                                event.stopPropagation();
+                                event.preventDefault();
+
+                                // data-link-id 속성을 통해 links.id 값을 가져옵니다.
+
+
+                                var linkId = event.target.href;
+
+                                console.log('삭제 클릭! Link ID:', linkId);
+
+                                location.href = linkId;
+
+                                // linkId를 이용하여 원하는 작업을 수행합니다.
+                            }
+                        </script>
+
+<!--                        <script th:inline="javascript">-->
+<!--                            function handleDeleteClick(event) {-->
+<!--                                event.stopPropagation();-->
+<!--                                event.preventDefault(); // 이 부분은 이벤트의 기본 동작을 방지합니다.-->
+<!--                                // 원하는 작업을 수행하세요.-->
+<!--                                location.href = "/adm/links/delete/[[${links.id}]]" ;-->
+<!--                            }-->
+<!--                        </script>-->
+
+<!--                        <script th:inline="javascript">-->
+<!--                            function handleSecondClick(event) {-->
+<!--                                event.stopPropagation();-->
+<!--                                event.preventDefault(); // 이 부분은 이벤트의 기본 동작을 방지합니다.-->
+<!--                                // 원하는 작업을 수행하세요.-->
+<!--                                location.href="/usr/member/login";-->
+<!--                            }-->
+<!--                        </script>-->
+
                     </div>
-                </a>
-
-<!--                <a th:href="@{${links.urlLinks}|}" class="flex items-center justify-center w-full h-full"> &lt;!&ndash; 가운데 정렬을 위해 flex 및 justify-center, items-center 추가 &ndash;&gt;-->
-<!--                    <div class="content-center">-->
-<!--                        <div class="flex items-center h-full">-->
-<!--                            <img src="/resource/common/images/youtube_social_icon_red.png">-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div th:text="${links.linksName}"></div>-->
-<!--                </a>-->
-
+                </div>
 
             </div>
+
+
+
+
+
+
+            <!--                <i class="fa-solid fa-gear"></i>-->
+
+
         </div>
 <!--        <div class="flex flex-col items-center">-->
 <!--            <div th:each="links : ${linksList}">-->

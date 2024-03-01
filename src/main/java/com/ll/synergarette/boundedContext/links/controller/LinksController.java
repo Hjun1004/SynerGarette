@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,10 +44,18 @@ public class LinksController {
 
         @NotBlank
         private String urlLinks;
+
+        public void set(Links links){
+            this.linksName = links.getLinksName();
+            this.urlLinks = links.getUrlLinks();
+        }
     }
 
     @PostMapping("/registration")
     public String registerLink(@Valid RegisterLinkForm registerLinkForm, BindingResult bindingResult, Model model, Principal principal){
+        if(bindingResult.hasErrors()){
+            return "adm/links/registerPage";
+        }
 
         RsData<Links> linksRsData = linksService.registrationLinks(registerLinkForm.linksName, registerLinkForm.urlLinks);
 
@@ -61,5 +70,50 @@ public class LinksController {
 
         return rq.redirectWithMsg("/", linksRsData.getMsg());
     }
+
+    @GetMapping("delete/{id}")
+    public String deleteLink(@PathVariable Long id){
+
+        RsData<Links> checkLinks = linksService.findById(id);
+
+        if(checkLinks.isFail()){
+            return rq.historyBack(checkLinks.getMsg());
+        }
+
+        RsData deleteLinks = linksService.deleteLinks(checkLinks.getData());
+
+
+        return rq.redirectWithMsg("/", deleteLinks.getMsg());
+    }
+
+    @GetMapping("/modify/{id}")
+    public String modifyLink(@PathVariable Long id, RegisterLinkForm registerLinkForm){ //registerLinkForm 는 model.addAttribute없이도 view에 전송이 된다.
+        RsData<Links> linksRsData = linksService.findById(id);
+
+        if(linksRsData.isFail()) return rq.historyBack(linksRsData.getMsg());
+
+        registerLinkForm.set(linksRsData.getData());
+
+        return "adm/links/registerPage";
+    }
+
+    @PostMapping("/modify/{id}")
+    public String modifyLink(@PathVariable Long id, @Valid RegisterLinkForm registerLinkForm, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "adm/links/registerPage";
+        }
+
+        RsData<Links> linksRsData = linksService.findById(id);
+
+        RsData canModifyRsData = linksService.canModify(linksRsData.getData());
+
+        if(canModifyRsData.isFail()) return rq.historyBack(canModifyRsData.getMsg());
+
+        RsData<Links> modifiedLinks = linksService.modifyLinks(linksRsData.getData(), registerLinkForm.urlLinks, registerLinkForm.linksName);
+
+        return rq.redirectWithMsg("/", modifiedLinks.getMsg());
+    }
+
+
 
 }
