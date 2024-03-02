@@ -30,10 +30,13 @@
             <div th:each="links : ${linksList}" class="flex flex-row  w-full  h-20 mb-4 items-center justify-center"> <!-- 여백을 위해 mb-4 추가 -->
 
 
-                <div id="clickTest" class="flex flex-row border-2 border-slate-950 w-full max-w-3xl h-full dark:hover:bg-gray-300 light:hover:bg-slate-400 p-2"><!-- space-x-4는 이미지와 텍스트 사이의 간격을 조절합니다 -->
+                <div id="clickTest" th:data-url="${links.urlLinks}" class="clickable-link flex flex-row border-2 border-slate-950 w-full max-w-3xl h-full dark:hover:bg-gray-300 light:hover:bg-slate-400 p-2"><!-- space-x-4는 이미지와 텍스트 사이의 간격을 조절합니다 -->
                     <script th:inline="javascript">
-                        $("#clickTest").click(function(){
-                            window.open([[${links.urlLinks}]]);
+                        $(".clickable-link").click(function(){
+                            var url = $(this).data("url");
+                            if (url) {
+                                window.open(url);
+                            }
                         });
                     </script>
                     <div class="flex-none w-14"> <!-- 이미지를 왼쪽에 정렬하기 위해 flex 및 items-center 추가 -->
@@ -190,24 +193,7 @@
             </div>
 
 
-
-
-
-
-            <!--                <i class="fa-solid fa-gear"></i>-->
-
-
         </div>
-<!--        <div class="flex flex-col items-center">-->
-<!--            <div th:each="links : ${linksList}">-->
-
-<!--                <div class="border-2 w-3/5 h-20">-->
-<!--                    <a th:href="@{${links.urlLinks}|}">-->
-<!--                        <div th:text="${links.linksName}"></div>-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 
     <br></br>

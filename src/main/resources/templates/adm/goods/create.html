@@ -172,7 +172,7 @@
 
         // 버튼 클릭 시 에디터의 내용을 textarea에 설정하고, 폼을 서버로 제출
         document.getElementById('submitBtn').addEventListener('click', () => {
-            const editorContent = editor.getMarkdown(); // 또는 editor.getHTML() or getMarkdown() 사용 가능
+            const editorContent = editor.getHTML(); // 또는 editor.getHTML() or getMarkdown() 사용 가능
             document.getElementById('editorContent').innerText = editorContent;
             document.querySelector('form').submit();
         });

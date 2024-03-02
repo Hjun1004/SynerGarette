@@ -3,12 +3,14 @@ package com.ll.synergarette.boundedContext.links.service;
 import com.ll.synergarette.base.rq.Rq;
 import com.ll.synergarette.base.rsData.RsData;
 import com.ll.synergarette.boundedContext.links.controller.LinksController;
+import com.ll.synergarette.boundedContext.links.entity.LinkForm;
 import com.ll.synergarette.boundedContext.links.entity.Links;
 import com.ll.synergarette.boundedContext.links.repository.LinksRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -36,10 +38,6 @@ public class LinksService {
 
         return RsData.of("S-1", "링크가 삭제되었습니다.");
     }
-
-//    public RsData<Links> modifyLinks(Links links, RegisterLinkForm registerLinkForm) {
-//
-//    }
 
 
     @Transactional
@@ -74,20 +72,26 @@ public class LinksService {
     }
 
 
+    public RsData<Links> registrationLinks(LinkForm linkForm) {
+        String realImageUrls = checkRealImageUrl(linkForm.getImageUrl()); // 이미지를 업로드 했는지 체크하고 이미지가 있으면 이미지의 url을 가져온다.
 
-
-    enum Brand{
-        youtube,
-        melon,
-        flo,
-        spotify,
-        appleMusic,
-        genie,
-        youtubeMusic,
-        vibe,
-        instagram,
-        bugs
+        if(realImageUrls != null){
+            return registrationLinks(linkForm.getLinksName(), linkForm.getUrlLinks(), realImageUrls);
+        }else return registrationLinks(linkForm.getLinksName(), linkForm.getUrlLinks());
     }
+
+    private String checkRealImageUrl(String imageUrl) {
+        if(!imageUrl.contains("[image alt attribute]")){
+            return null;
+        }else {
+            String realImage[] = imageUrl.split("e]");
+            int a = realImage[1].indexOf(')');
+            String realImageUrl = realImage[1].substring(1,a);
+
+            return realImageUrl;
+        }
+    }
+
 
     @Transactional
     public RsData<Links> registrationLinks(String linksName, String urlLinks) {
@@ -107,7 +111,6 @@ public class LinksService {
 
         String brandCheck = brandCheck(urlLinks);
 
-
         Links links = Links
                 .builder()
                 .linksName(linksName)
@@ -123,6 +126,12 @@ public class LinksService {
 
     public List<Links> findAll() {
         return linksRepository.findAll();
+    }
+
+    public List<Links> findAllReverse(){
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+
+        return linksRepository.findAll(sort);
     }
 
     private String youtubeVideoCheck(String urlLinks){
@@ -170,4 +179,6 @@ public class LinksService {
 
         return null;
     }
+
+
 }

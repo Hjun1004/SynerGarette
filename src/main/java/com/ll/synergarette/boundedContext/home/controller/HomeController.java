@@ -18,7 +18,7 @@ public class HomeController {
     @GetMapping("/")
     public String showMain(Model model){
 
-        List<Links> linksList = linksService.findAll();
+        List<Links> linksList = linksService.findAllReverse();
 
         if(!linksList.isEmpty()){
             model.addAttribute("linksList", linksList);

@@ -2,13 +2,31 @@
 
 <head>
     <title>SynerGarette [시너가렛]</title>
+
+    <!-- Editor's Style -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+    <!-- 보기 편하게 CSS추가해주었습니다. -->
+    <style>
+<!--        * {-->
+<!--            text-align:  center;-->
+<!--        }-->
+        #editor {
+            /* border : 1px solid; */
+            width : 70%;
+            margin : 0 auto;
+        }
+    </style>
+
 </head>
 
 <body>
 
 <main layout:fragment="main">
 
-    <form th:action method="POST" th:object="${registerLinkForm}" class="flex flex-col gap-6" >
+    <form th:action method="POST" th:object="${linkForm}" class="flex flex-col gap-6" >
+        <div th:replace="~{adm/links/form_errors :: formErrorsFragment}"></div>
+
         <th:block th:if="true">
             <div class="form-control">
                 <label class="label">
@@ -24,10 +42,90 @@
                 <input type="text" th:field="*{urlLinks}" name="urlLinks" placeholder="URL 입력" class="input input-bordered"/>
             </div>
 
-            <button id="btn-join-1" class="btn btn-block btn-primary gap-1">
-                <i class="fa-solid fa-user-plus"></i>
-                <span>링크 등록</span>
-            </button>
+            <div class="mt-7">
+                아래의 칸에는 링크의 썸네일 아이콘으로 사용하고 싶은 이미지를 하나만 올려주십시오.
+                이미지를 올리지 않을 시 기본적인 플랫폼의 로고가 사용되며 플랫폼이 없는 주소의 경우 아무 이미지도 등록되지 않습니다.
+            </div>
+
+            <!--     에디터를 적용할 요소 (컨테이너)-->
+            <div>
+                <div id="editor">
+
+                </div>
+            </div>
+
+            <div>
+                <!-- 에디터의 내용을 저장할 감춰진 textarea -->
+                <textarea id="editorContent" type="text" th:field="*{imageUrl}" name="imageUrl" style="display: none;"></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn btn-success my-2">링크 등록</button>
+
+<!--            <div>-->
+<!--                <input type="button" id="editorGetHtml" value="HTML보기">-->
+<!--            </div>-->
+
+
+<!--            <button id="btn-join-1" class="btn btn-block btn-primary gap-1">-->
+<!--                <i class="fa-solid fa-user-plus"></i>-->
+<!--                <span>링크 등록</span>-->
+<!--            </button>-->
+
+
+            <!--     ToastUI 에디터 불러오기-->
+            <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+            <!--     TUI 에디터 JS CDN-->
+            <script>
+                const editor = new toastui.Editor({
+                    el: document.querySelector('#editor'), // 에디터를 적용할 요소 (컨테이너)
+                    height: '800px',                        // 에디터 영역의 높이 값 (OOOpx || auto)
+                    initialEditType: 'wysiwyg',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+                    initialValue: '꼭 사진만 드래그하여 올려주세요.',     // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+                    previewStyle: 'vertical',                // 마크다운 프리뷰 스타일 (tab || vertical)
+                    /* start of hooks */
+                    hooks: {
+                        async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
+                            try {
+                                /*
+                                 * 1. 에디터에 업로드한 이미지를 FormData 객체에 저장
+                                 *    (이때, 컨트롤러 uploadEditorImage 메서드의 파라미터인 'image'와 formData에 append 하는 key('image')값은 동일해야 함)
+                                 */
+                                const formData = new FormData();
+                                formData.append('image', blob);
+
+                                // 2. FileApiController - uploadEditorImage 메서드 호출
+                                const response = await fetch('/tui-editor/image-upload', {
+                                    method : 'POST',
+                                    body : formData,
+                                });
+
+                                // 3. 컨트롤러에서 전달받은 s3에 저장된 파일명
+                                const filename = await response.text();
+
+
+                                // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
+                                callback(filename, 'image alt attribute');
+
+                            } catch (error) {
+                                console.error('업로드 실패 : ', error);
+                            }
+                        }
+                    }
+                    /* end of hooks */
+                });
+
+                // 버튼 클릭 시 에디터의 내용을 textarea에 설정하고, 폼을 서버로 제출
+                document.getElementById('submitBtn').addEventListener('click', () => {
+                    const editorContent = editor.getMarkdown(); // 또는 editor.getHTML() or getMarkdown() 사용 가능
+                    document.getElementById('editorContent').innerText = editorContent;
+                    document.querySelector('form').submit();
+                });
+
+                document.getElementById('editorGetHtml').addEventListener('click', () => {
+                    console.log(editor.getHTML());
+                });
+            </script>
 
         </th:block>
 

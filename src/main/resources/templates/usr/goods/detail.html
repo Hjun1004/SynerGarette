@@ -35,6 +35,7 @@
 <!--      ${uploadFile.test_content}-->
 <!--    </div>-->
 
+
     <div th:utext="${goodsItem.goodsDetail}"></div>
 
 
@@ -49,14 +50,14 @@
 <!--    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>-->
     <script src="https://uicdn.toast.com/editor/3.0.2/toastui-editor-all.min.js"></script>
 
-<!--    <script>-->
-<!--    const viewer = new toastui.Editor({-->
-<!--      el: document.querySelector('#viewer'),-->
-<!--      height: '600px',-->
-<!--      initialValue: '[[${goodsItem.goodsDetail}]]'-->
-<!--    });-->
+    <script>
+      const viewer = new toastui.Editor({
+        el: document.querySelector('#viewer'),
+        height: '600px',
+        initialValue: '[[${goodsItem.goodsDetail}]]'
+      });
 
-<!--  </script>-->
+    </script>
 
     <script>
       ClassicEditor
