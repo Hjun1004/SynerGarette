@@ -24,6 +24,10 @@
             </li>
 
             <li>
+              <a th:href="@{/member/join}" th:if="${@rq.logout}">회원가입</a>
+            </li>
+
+            <li>
               <a th:href="@{/usr/member/mypage}" th:if="${@rq.login}">내 페이지</a>
             </li>
 
@@ -53,7 +57,7 @@
 
       <div class="navbar-end" >
         <div class="hidden lg:flex" th:if="${@rq.isAdmin}">
-          <a th:href="@{/adm/goods/create}" class="btn border-solid border-2 rounded-lg border-slate-800 mr-3" th:if="${@rq.isAdmin}">상품 등록</a>
+          <a th:href="@{/adm/goods/createGoods}" class="btn border-solid border-2 rounded-lg border-slate-800 mr-3" th:if="${@rq.isAdmin}">상품 등록</a>
 
           <a th:href="@{/adm/links/registration}" class="btn border-solid border-2 rounded-lg border-slate-800" th:if="${@rq.isAdmin}">링크 등록</a>
         </div>
@@ -65,7 +69,7 @@
           </div>
           <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-40">
             <li>
-              <a th:href="@{/adm/goods/create}" th:if="${@rq.isAdmin}">상품 등록</a>
+              <a th:href="@{/adm/goods/createGoods}" th:if="${@rq.isAdmin}">상품 등록</a>
             </li>
 
             <li>

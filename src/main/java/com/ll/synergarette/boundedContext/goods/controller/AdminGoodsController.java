@@ -34,21 +34,21 @@ public class AdminGoodsController {
 //        return "adm/goods/create";
 //    }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/create")
+//    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/createGoods")
     // @Valid를 붙여야 createGoods.java내의 NotBlank나 Size가 동작한다.
     public String createGoods(GoodsCreateForm goodsCreateForm) {
 
         return "adm/goods/create";
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/create")
+//    @PreAuthorize("isAuthenticated()")
+
     // @Valid QuestionForm questionForm
     // questionForm 값을 바인딩 할 때 유효성 체크를 해라!
     // questionForm 변수와 bindingResult 변수는 model.addAttribute 없이 바로 뷰에서 접근할 수 있다.
-    public String createGoods(@Valid GoodsCreateForm goodsCreateForm,
-                              BindingResult bindingResult, Principal principal, @RequestBody String htmlContent){
+    @PostMapping("/createGoods")
+    public String createGoods(@Valid GoodsCreateForm goodsCreateForm, BindingResult bindingResult, Principal principal){
         if(bindingResult.hasErrors()){
             return "adm/goods/create";
         }
