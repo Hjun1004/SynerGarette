@@ -119,8 +119,11 @@ public class OrderController {
         Member member = rq.getMember();
         Order order = orderService.findByIdAndPaid(id);
 
-        model.addAttribute("member", member);
+        Member buyer = order.getMember();
+
+        model.addAttribute("buyer", buyer);
         model.addAttribute("completeOrder", order);
+        model.addAttribute("orderDeliveryAddress", order.getOrderDeliveryAddress());
 
         return "/usr/order/completeOrderDetail";
     }
@@ -229,6 +232,8 @@ public class OrderController {
             System.out.println("오더 이름은 = " + order.getName());
 
             RsData orderRsData = orderService.payDone(order);
+
+            RsData addDeliveryForOrder = orderService.addDeliveryAddressForOrder(actor, order, order.getMember().getMyPage().getDeliveryAddress());
 
             RsData deleteCartItem = orderService.deleteCartItem(order, rq.getMember());
 

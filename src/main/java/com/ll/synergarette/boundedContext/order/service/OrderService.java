@@ -3,6 +3,7 @@ package com.ll.synergarette.boundedContext.order.service;
 import com.ll.synergarette.base.rsData.RsData;
 import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
 import com.ll.synergarette.boundedContext.cartItem.service.CartItemService;
+import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
 import com.ll.synergarette.boundedContext.order.entity.Order;
@@ -13,7 +14,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -162,4 +162,17 @@ public class OrderService {
     }
 
 
+    @Transactional
+    public RsData addDeliveryAddressForOrder(Member actor, Order order, DeliveryAddress deliveryAddress) {
+        if(!actor.equals(deliveryAddress.getMember())){
+            return RsData.of("F-1", "주문속의 계정과 결제의 계정이 다릅니다.");
+        }
+
+        order.setOrderDeliveryAddress(deliveryAddress);
+        if(order.getOrderDeliveryAddress() != null){
+            System.out.println("주문건에 배송지가 지정되었어요!!!!!!");
+        }
+
+        return RsData.of("S-1", "주문건의 배송지가 저장되었습니다.");
+    }
 }

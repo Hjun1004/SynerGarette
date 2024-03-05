@@ -12,22 +12,13 @@
 <main layout:fragment="main">
 
   <div class="container mx-5">
-    <div class="text-2xl">주문/배송 조회</div>
+    <div class="text-2xl mb-7">주문/배송 조회</div>
 
-    <!--    <h1 class="mb-4" th:if="${!#lists.isEmpty(cartItemList)}">-->
-    <!--      <i class="fa-solid fa-list-ol"></i>-->
-    <!--      장바구니 목록-->
-    <!--    </h1>-->
 
     <i class="fa-solid fa-list-ol"></i>
     배송정보
 
     <div class="my-3 border-solid border border-slate-600">
-<!--      <div class="py-5 border-solid">-->
-<!--        <span>배송지</span>-->
-<!--        <a class="btn btn-outline btn-sm" href="#" onclick="window.open('/delivery/addressList', '_blank', 'width=900,height=1000');">배송지 선택</a>-->
-<!--      </div>-->
-
 
 <!--      <hr class="border-slate-600" />-->
 
@@ -37,8 +28,10 @@
         <!--          <div th:text="|${member.myPage.deliveryAddress.recipient} / ${member.myPage.deliveryAddress.phoneNumber}|"></div>-->
         <!--        </div>-->
 
-        <div th:if="${!member.myPage.isEmpty()}">
-          <div th:text="|${member.myPage.deliveryAddress.recipient} / ${member.myPage.deliveryAddress.phoneNumber}|"></div>
+<!--        <div th:if="${!buyer.myPage.isEmpty()}">-->
+        <div th:if="${orderDeliveryAddress != null}">
+<!--            <div th:text="|${buyer.myPage.deliveryAddress.recipient} / ${buyer.myPage.deliveryAddress.phoneNumber}|"></div>-->
+            <div th:text="|${orderDeliveryAddress.recipient} / ${orderDeliveryAddress.phoneNumber}|"></div>
         </div>
       </div>
 
@@ -46,9 +39,9 @@
 
       <div class="py-5 border-solid">
         <span>주소</span>
-        <div th:if="${member.myPage.deliveryAddress != null}">
-          <div th:text="|${member.myPage.deliveryAddress.address} ${member.myPage.deliveryAddress.detailAddress}|"></div>
-        </div>
+          <div th:if="${orderDeliveryAddress != null}">
+              <div th:text="|${orderDeliveryAddress.address} ${orderDeliveryAddress.detailAddress}|"></div>
+          </div>
 
       </div>
     </div>

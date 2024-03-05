@@ -1,5 +1,6 @@
 package com.ll.synergarette.boundedContext.order.entity;
 
+import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
 import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.payment.PayType;
@@ -43,6 +44,10 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "member")
     private Member member;
+
+    @OneToOne
+    @JoinColumn(name = "deliveryAddress_Id")
+    private DeliveryAddress orderDeliveryAddress;
 
     @Builder.Default
     @OneToMany(mappedBy = "order" ,  fetch = FetchType.LAZY, cascade = ALL,  orphanRemoval = true)
