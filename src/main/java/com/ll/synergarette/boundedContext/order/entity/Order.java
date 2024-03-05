@@ -8,6 +8,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,6 @@ public class Order {
     @CreatedDate
     private LocalDateTime createDate;
 
-
-
     @ManyToOne
     @JoinColumn(name = "member")
     private Member member;
@@ -58,6 +57,7 @@ public class Order {
     private boolean isCanceled; // 취소여부
 
     private boolean isRefunded; // 환불여부
+
 
     public void addOrderItem(OrderItem orderItem){
         orderItem.setOrder(this);
@@ -104,37 +104,5 @@ public class Order {
 
         this.name = name;
     }
-
-
-
-
-    /*
-    토스 페이먼츠 쓰면서 만들었던거
-
-    @Enumerated(EnumType.STRING)
-    private PayType payType;
-
-    private Long amount;
-
-    private String orderName; // 상품 이름
-
-    private String orderId;
-
-    private boolean paySuccessYN;
-
-    @Column
-    private String paymentKey;
-
-    @Column
-    private String failReason;
-
-    @Column
-    private boolean cancelYN;
-
-    @Column
-    private String cancelReason;
-
-    */
-
 
 }

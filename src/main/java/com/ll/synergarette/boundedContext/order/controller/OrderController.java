@@ -60,6 +60,7 @@ public class OrderController {
     @Value("${custom.site.baseUrl}")
     private String baseUrl;
 
+
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated")
     public String create(){
@@ -98,6 +99,7 @@ public class OrderController {
 
         return "usr/order/orderDetail";
     }
+
 
     @GetMapping("/complete/{id}")
     public String orderComplete(@PathVariable Long id, Model model){
@@ -227,6 +229,9 @@ public class OrderController {
             System.out.println("오더 이름은 = " + order.getName());
 
             RsData orderRsData = orderService.payDone(order);
+
+            RsData deleteCartItem = orderService.deleteCartItem(order, rq.getMember());
+
             // 디버깅용 로그
             System.out.println("setPaymentDone() called");
 
@@ -245,6 +250,9 @@ public class OrderController {
             JsonNode failNode = responseEntity.getBody();
             model.addAttribute("message", failNode.get("message").asText());
             model.addAttribute("code", failNode.get("code").asText());
+
+            RsData deleteOrder = orderService.deleteOrder(order);
+
             return "order/fail";
         }
 

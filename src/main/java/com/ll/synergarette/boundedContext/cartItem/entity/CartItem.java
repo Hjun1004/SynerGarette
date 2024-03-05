@@ -39,3 +39,4 @@ public class CartItem {
     private Goods goodsItem;
 
 }
+

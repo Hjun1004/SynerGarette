@@ -28,11 +28,6 @@
 
   <div class="container mx-5">
 
-    <!--    <h1 class="mb-4" th:if="${!#lists.isEmpty(cartItemList)}">-->
-    <!--      <i class="fa-solid fa-list-ol"></i>-->
-    <!--      장바구니 목록-->
-    <!--    </h1>-->
-
     <i class="fa-solid fa-list-ol"></i>
     배송정보
 
@@ -107,7 +102,7 @@
         amount: orderPayPrice,
         orderId: "order__" + orderId + "__" + (Math.random() + "").substring(2),
         orderName: orderName,
-        successUrl: "http://localhost:8080/order/" + orderId + "/success",
+        successUrl: baseUrlHtml + "/order/" + orderId + "/success",
         failUrl: 'http://localhost:8080/order/orderId/fail'
       })
     }

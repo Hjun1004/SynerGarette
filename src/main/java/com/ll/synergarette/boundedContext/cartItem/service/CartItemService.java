@@ -50,4 +50,7 @@ public class CartItemService {
     }
 
 
+    public CartItem findCartItemByGoodsIdAndMemberId(Long goodsId, Long memberId) {
+        return cartItemRepository.findCartItemByGoodsItemIdAndMemberId(goodsId, memberId);
+    }
 }

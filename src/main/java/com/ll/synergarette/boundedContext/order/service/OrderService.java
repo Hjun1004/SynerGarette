@@ -9,9 +9,12 @@ import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +45,8 @@ public class OrderService {
                 .map(CartItem::getGoodsItem)
                 .forEach(goodsItem -> orderItemList.add(new OrderItem(goodsItem)));
         // 장바구니 상품들을 가져와서 order 아이템 리스트에 담는다.
-
-        cartItemList.stream().forEach(cartItem -> cartItemService.deleteCartItem(cartItem));
+// 이 부분 장바구니 삭제 안되게 하려고 잠시 3원 5일에 주석 처리 함
+//        cartItemList.stream().forEach(cartItem -> cartItemService.deleteCartItem(cartItem));
 
         return create(buyer, orderItemList);
     }
@@ -104,4 +107,59 @@ public class OrderService {
 
         return order;
     }
+
+
+    public RsData deleteOrder(Order order) {
+        if(order.isPaid()){
+           return RsData.of("F-1", "결제가 되어있는 주문 입니다. 삭제하지 못하였습니다.", order);
+        }
+
+        orderRepository.delete(order);
+
+        return RsData.of("S-1", "삭제되었습니다.", order);
+    }
+
+
+    @Transactional
+    @Scheduled(fixedDelay = 1860 * 1000) // 31분 마다 실행 (단위: 밀리초) 1 * 1000 는 1초 // 31분 마다 만들어지고 30분이 지났는데 결제가 안된 주문들은 삭제
+    public void deleteExpiredOrders() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime minusTime = currentTime.minusMinutes(30L);
+
+        List<Order> expiredOrders = orderRepository.findByCreateDateBeforeAndIsPaid(minusTime, false);
+
+        orderRepository.deleteAll(expiredOrders);
+    }
+
+    @Transactional
+    public RsData deleteCartItem(Order order, Member buyer) {
+        if(order.getOrderItemList().isEmpty()){
+            return RsData.of("F-1", "결제한 상품이 없습니다.", order);
+        }
+
+        List<OrderItem> orderItemList = order.getOrderItemList();
+
+        List<CartItem> cartItemList = new ArrayList<>();
+
+        orderItemList
+                .stream()
+                .map(OrderItem::getGoods)
+                .forEach(goods -> cartItemList.add(cartItemService.findCartItemByGoodsIdAndMemberId(goods.getId(), buyer.getId())));
+
+
+        System.out.println("카트 아이템 찾아옴?");
+
+        cartItemList.stream().map(CartItem::getGoodsItem).forEach(goods -> System.out.println(goods.getGoodsName()));
+
+        for(CartItem nowCartItem : cartItemList){
+            cartItemService.deleteCartItem(nowCartItem);
+        }
+
+//        cartItemList.stream().forEach(cartItem -> cartItemService.deleteCartItem(cartItem));
+
+
+        return RsData.of("S-1", "삭제했습니다.");
+    }
+
+
 }
