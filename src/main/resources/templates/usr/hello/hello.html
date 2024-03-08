@@ -7,44 +7,23 @@
 <body>
 
 <main layout:fragment="main">
-<!--    <img src="src/main/resources/static/resource/common/images/synergaretteLogo.png">-->
     <div class="carousel w-full mb-10">
         <div id="item1" class="carousel-item w-full">
             <img src="/resource/common/images/synergaretteLogo.png" class="w-full" />
         </div>
     </div>
 
-    <!--    <div class="hero min-h-screen bg-base-200">-->
-<!--        <div class="hero-content flex-col lg:flex-row">-->
-<!--            <img src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" class="max-w-sm rounded-lg shadow-2xl" />-->
-<!--            <div>-->
-<!--                <h1 class="text-5xl font-bold">Box Office News!</h1>-->
-<!--                <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>-->
-<!--                <button class="btn btn-primary">Get Started</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-    <div class="mx-3" th:if="${!#lists.isEmpty(linksList)}">
+    <div class="mx-3 text-sm md:text-base" th:if="${!#lists.isEmpty(linksList)}">
         <div class="flex flex-col items-center justify-center"> <!-- 중앙 정렬을 위해 items-center 추가 -->
-            <div th:each="links : ${linksList}" class="flex flex-row  w-full  h-20 mb-4 items-center justify-center"> <!-- 여백을 위해 mb-4 추가 -->
+            <div th:each="links : ${linksList}" class="flex flex-row w-full h-16 mb-4 items-center justify-center"> <!-- 여백을 위해 mb-4 추가 -->
 
 
                 <div id="clickTest" th:data-url="${links.urlLinks}" class="clickable-link flex flex-row border-2 border-slate-950 w-full max-w-3xl h-full dark:hover:bg-gray-300 light:hover:bg-slate-400 p-2"><!-- space-x-4는 이미지와 텍스트 사이의 간격을 조절합니다 -->
-                    <script th:inline="javascript">
-                        $(".clickable-link").click(function(){
-                            var url = $(this).data("url");
-                            if (url) {
-                                window.open(url);
-                            }
-                        });
-                    </script>
-                    <div class="flex-none w-14"> <!-- 이미지를 왼쪽에 정렬하기 위해 flex 및 items-center 추가 -->
+                    <div class="flex-none w-10 md:w-14 h-full"> <!-- 이미지를 왼쪽에 정렬하기 위해 flex 및 items-center 추가 -->
 
                         <div class="flex items-center h-full">
                             <th:block th:if="${!links.isBrands()} and ${!links.isImageUrls()}">
-<!--                                <img src="/resource/common/images/youtube_social_icon_red.png">-->
-<!--                                <img src="https://img.youtube.com/vi/fPV5MAe5PK4/0.jpg">-->
+
                             </th:block>
 
                             <th:block th:unless="${!links.isBrands()} and ${!links.isImageUrls()}">
@@ -52,7 +31,6 @@
                                 <th:block th:if="${links.isBrands()} and ${!links.isImageUrls()}">
                                     <th:block th:if="${links.brand} == 'youtube'">
                                         <img src="/resource/common/images/youtube_social_icon_red.png">
-                                        <!--                                    <img src="https://img.youtube.com/vi/fPV5MAe5PK4/0.jpg">-->
                                     </th:block>
 
                                     <th:block th:if="${links.brand} == instagram">
@@ -60,7 +38,7 @@
                                     </th:block>
 
                                     <th:block th:if="${links.brand} == melon">
-                                        <img src="/resource/common/images/melon_symbol_screen_green.png" style="width: 50px; height: 56px;">
+                                        <img src="/resource/common/images/melon_symbol_screen_green.png" style="width: 40px; height: 42px;">
                                     </th:block>
 
                                     <th:block th:if="${links.brand} == spotify">
@@ -69,6 +47,10 @@
 
                                     <th:block th:if="${links.brand} == vibe">
                                         <img src="/resource/common/images/vibe.png">
+                                    </th:block>
+
+                                    <th:block th:if="${links.brand} == genie">
+                                        <img src="/resource/common/images/genieMusic.png">
                                     </th:block>
 
                                     <th:block th:if="${links.brand} == youtubeMusic">
@@ -91,20 +73,23 @@
                                 <th:block th:if="${links.isBrands()} and ${links.isImageUrls()}">
                                     <th:block th:if="${links.brand} == 'youtube'">
                                         <img th:src="${links.imageUrl}">
-                                        <!--                                    <img src="https://img.youtube.com/vi/fPV5MAe5PK4/0.jpg">-->
                                     </th:block>
+                                </th:block>
+
+                                <th:block th:if="${!links.isBrands()} and ${links.isImageUrls()}">
+                                        <img th:src="${links.imageUrl}">
                                 </th:block>
                             </th:block>
                         </div>
                     </div>
 
                     <div class="grow">
-                        <div class="flex items-center justify-center w-full h-full">
+                        <div class="p-2 flex items-center justify-center text-center w-full h-full">
                             <div th:text="${links.linksName}"></div>
                         </div>
                     </div>
 
-                    <div class="flex-none w-14 h-full">
+                    <div class="flex-none w-10 md:w-14 h-full">
                         <div class="dropdown dropdown-end" th:if="${@rq.isAdmin}">
                             <div tabindex="0" role="button" class="btn btn-square btn-ghost" onclick="handleButtonClick(event)">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
@@ -173,9 +158,16 @@
                 </div>
 
             </div>
-
-
         </div>
+
+        <script th:inline="javascript">
+                        $(".clickable-link").click(function(){
+                            var url = $(this).data("url");
+                            if (url) {
+                                window.open(url);
+                            }
+                        });
+        </script>
     </div>
 
     <br></br>
@@ -183,19 +175,7 @@
     <br></br>
     <br></br>
     <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
 
-
-<!--    <div>-->
-<!--        시너가렛 메인입니다.-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        시너가렛 메인 2줄 입니다.-->
-<!--    </div>-->
 </main>
 
 </body>
