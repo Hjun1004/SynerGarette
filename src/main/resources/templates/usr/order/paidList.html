@@ -40,11 +40,9 @@
               <td>
                 <div th:if="${paidOrder.trackingNumber == null}">
                   물품 준비중
-<!--                  <a class="btn btn-success btn-outline btn-sm" >주문 취소</a>-->
                 </div>
                 <div th:if="${paidOrder.trackingNumber != null}">
                   배송중
-<!--                  <a class="btn btn-success btn-outline btn-sm" th:href="@{|http://nplus.doortodoor.co.kr/web/detail.jsp?slipno=${paidOrder.trackingNumber}|}">배송 조회</a>-->
                   <a class="btn btn-outline btn-success btn-sm ml-1" href="#" th:onclick="window.open('http://nplus.doortodoor.co.kr/web/detail.jsp?slipno=' + [[${paidOrder.trackingNumber}]], '_blank', 'width=900,height=1000');">배송 조회</a>
 
                 </div>
@@ -55,7 +53,6 @@
       </table>
     </div>
   </div>
-
 </div>
 
 

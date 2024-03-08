@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.synergarette.base.rq.Rq;
 import com.ll.synergarette.base.rsData.RsData;
+import com.ll.synergarette.boundedContext.goods.entity.Goods;
+import com.ll.synergarette.boundedContext.goods.service.GoodsService;
 import com.ll.synergarette.boundedContext.member.controller.MemberController;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
@@ -37,10 +39,7 @@ import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 
 import java.security.Principal;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static javax.crypto.Cipher.SECRET_KEY;
 
@@ -51,6 +50,8 @@ public class OrderController {
     private final Rq rq;
     private final OrderService orderService;
 
+    private final GoodsService goodsService;
+
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper;
     private final MemberService memberService;
@@ -60,6 +61,21 @@ public class OrderController {
     @Value("${custom.site.baseUrl}")
     private String baseUrl;
 
+    @GetMapping("/create/goods/{id}")
+    @PreAuthorize("isAuthenticated")
+    public String createForGoods(@PathVariable Long id){
+        Member member = rq.getMember();
+
+        Optional<Goods> goods = goodsService.findById(id);
+
+        if(goods.isEmpty()){
+            return rq.historyBack("선택하신 상품은 재고가 부족하거나 존재하지 않습니다.");
+        }
+
+        RsData<Order> rsOrder = orderService.createFromGoods(goods.get(), member);
+
+        return rq.redirectWithMsg("/order/%d".formatted(rsOrder.getData().getId()), "%d번 주문이 생성되었습니다.".formatted(rsOrder.getData().getId()));
+    }
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated")

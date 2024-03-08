@@ -4,12 +4,14 @@ import com.ll.synergarette.base.rsData.RsData;
 import com.ll.synergarette.boundedContext.cartItem.entity.CartItem;
 import com.ll.synergarette.boundedContext.cartItem.service.CartItemService;
 import com.ll.synergarette.boundedContext.delivery.entity.DeliveryAddress;
+import com.ll.synergarette.boundedContext.goods.entity.Goods;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.member.service.MemberService;
 import com.ll.synergarette.boundedContext.order.entity.Order;
 import com.ll.synergarette.boundedContext.order.entity.OrderItem;
 import com.ll.synergarette.boundedContext.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +51,23 @@ public class OrderService {
 //        cartItemList.stream().forEach(cartItem -> cartItemService.deleteCartItem(cartItem));
 
         return create(buyer, orderItemList);
+    }
+
+    @Transactional
+    public RsData<Order> createFromGoods(Goods goods, Member buyer) {
+        Order order = Order
+                .builder()
+                .member(buyer)
+                .paidCheck(0) // 이 부분이 0이면 결제 안한애들
+                .build();
+
+        order.addOrderItem(new OrderItem(goods));
+
+        order.makeName();
+
+        orderRepository.save(order);
+
+        return RsData.of("S-1", "주문이 성공적으로 생성되었습니다.", order) ;
     }
 
     @Transactional
@@ -175,4 +194,6 @@ public class OrderService {
 
         return RsData.of("S-1", "주문건의 배송지가 저장되었습니다.");
     }
+
+
 }
