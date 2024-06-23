@@ -50,6 +50,10 @@ public class LinksController {
             this.linksName = links.getLinksName();
             this.urlLinks = links.getUrlLinks();
         }
+
+        public void setImageUrl(String imageUrl){
+            this.imageUrl = imageUrl;
+        }
     }
 
     @GetMapping("/registration")
@@ -104,6 +108,8 @@ public class LinksController {
     public String modifyLink(@PathVariable Long id, LinkForm linkForm){ //registerLinkForm 는 model.addAttribute없이도 view에 전송이 된다.
         RsData<Links> linksRsData = linksService.findById(id);
 
+
+
         if(linksRsData.isFail()) return rq.historyBack(linksRsData.getMsg());
 
         linkForm.set(linksRsData.getData());
@@ -123,7 +129,7 @@ public class LinksController {
 
         if(canModifyRsData.isFail()) return rq.historyBack(canModifyRsData.getMsg());
 
-        RsData<Links> modifiedLinks = linksService.modifyLinks(linksRsData.getData(), linkForm.getUrlLinks(), linkForm.getLinksName());
+        RsData<Links> modifiedLinks = linksService.modifyLinks(linksRsData.getData(), linkForm,  linkForm.getUrlLinks(), linkForm.getLinksName());
 
         return rq.redirectWithMsg("/", modifiedLinks.getMsg());
     }

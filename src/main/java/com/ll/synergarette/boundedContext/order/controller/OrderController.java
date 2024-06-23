@@ -184,9 +184,7 @@ public class OrderController {
 
         order = orderService.writeTrackingNumber(order ,trackingNumberForm.trackingNumber);
 
-
-
-        return "송장 번호 등록 -완-";
+        return "송장 번호 등록 완료";
     }
 
     @GetMapping("/list")
@@ -227,12 +225,6 @@ public class OrderController {
         payloadMap.put("amount", String.valueOf(amount));
 
         Member actor = rq.getMember();
-//        long restCash = memberService.getRestCash(actor);
-//        long payPriceRestCash = order.calculatePayPrice() - amount;
-
-//        if (payPriceRestCash > restCash) {
-//            throw new OrderNotEnoughRestCashException();
-//        }
 
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
 
@@ -240,12 +232,6 @@ public class OrderController {
                 "https://api.tosspayments.com/v1/payments/" + paymentKey, request, JsonNode.class);
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
-
-//            orderService.payByTossPayments(order, payPriceRestCash);
-
-//            order.setPaid(true);
-            System.out.println("이거 보이면 결제 성공");
-            System.out.println("오더 이름은 = " + order.getName());
 
             RsData orderRsData = orderService.payDone(order);
 
@@ -255,13 +241,6 @@ public class OrderController {
 
             // 디버깅용 로그
             System.out.println("setPaymentDone() called");
-
-//            order.setPaymentDone();
-
-//            return rq.redirectWithMsg(
-//                    "/order/%d".formatted(order.getId()),
-//                    "%d번 주문이 결제처리되었습니다.".formatted(order.getId())
-//            );
 
             return rq.redirectWithMsg(
                     "/order/complete/%d".formatted(order.getId()),

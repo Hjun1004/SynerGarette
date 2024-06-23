@@ -41,20 +41,28 @@ public class LinksService {
 
 
     @Transactional
-    public RsData<Links> modifyLinks(Links links, String urlLinks, String linksName) {
+    public RsData<Links> modifyLinks(Links links, LinkForm linkForm, String urlLinks, String linksName) {
         links.setLinksName(linksName);
         links.setUrlLinks(urlLinks);
 
         String youtubeVideoCheck = youtubeVideoCheck(urlLinks);
         String brandCheck = brandCheck(urlLinks);
+        String realImageUrls = checkRealImageUrl(linkForm.getImageUrl()); // 이미지를 업로드 했는지 체크하고 이미지가 있으면 이미지의 url을 가져온다.
 
-        if(links.getBrand() != brandCheck){
-            links.setBrand(brandCheck);
+        if(realImageUrls != null && links.getImageUrl() != linkForm.getImageUrl()){
+            links.setImageUrl(realImageUrls);
+        }else{
+            links.setImageUrl(null);
+
+            if(links.getBrand() != brandCheck){ // 링크의 브랜드가 변경 됐으면 변경된 브랜드 저장
+                links.setBrand(brandCheck);
+            }
+
+            if(youtubeVideoCheck != null){ // 새로 등록된 링크가 유뷰트 영상 링크면 썸네일 이미지 저장
+                links.setImageUrl(youtubeVideoCheck);
+            }
         }
 
-        if(youtubeVideoCheck != null){
-            links.setImageUrl(youtubeVideoCheck);
-        }
 
         return RsData.of("S-1", "수정되었습니다.", links);
     }
@@ -65,40 +73,26 @@ public class LinksService {
         }
 
         if(!rq.isAdmin()){
-            return RsData.of("F-1", "관리자만이 수정할 수 있습니다.");
+            return RsData.of("F-2", "관리자만이 수정할 수 있습니다.");
         }
 
         return RsData.of("S-1", "수정 가능 합니다.");
     }
 
-
     public RsData<Links> registrationLinks(LinkForm linkForm) {
         String realImageUrls = checkRealImageUrl(linkForm.getImageUrl()); // 이미지를 업로드 했는지 체크하고 이미지가 있으면 이미지의 url을 가져온다.
 
-        if(realImageUrls != null){
+        if(realImageUrls != null){ // 이미지를 등록한다면, 이미지를 직접 저장
             return registrationLinks(linkForm.getLinksName(), linkForm.getUrlLinks(), realImageUrls);
         }else return registrationLinks(linkForm.getLinksName(), linkForm.getUrlLinks());
     }
 
-    private String checkRealImageUrl(String imageUrl) {
-        if(!imageUrl.contains("[image alt attribute]")){
-            return null;
-        }else {
-            String realImage[] = imageUrl.split("e]");
-            int a = realImage[1].indexOf(')');
-            String realImageUrl = realImage[1].substring(1,a);
-
-            return realImageUrl;
-        }
-    }
-
-
     @Transactional
     public RsData<Links> registrationLinks(String linksName, String urlLinks) {
-
+        // 등록된 링크가 유튜브 영상인지 확인 -> 유튜브 영상이면 썸네일 이미지 주소를 저장
         String youtubeVideoCheck = youtubeVideoCheck(urlLinks);
 
-        // 일단 이미지 url이 없으면 무조건 유튜브 썸네일로 표기하기로
+        // 유튜브 영상 링크에 따로 이미지 url이 없으면 무조건 유튜브의 영상 썸네일을 표기하기로
         if(youtubeVideoCheck != null){
             return registrationLinks(linksName, urlLinks, youtubeVideoCheck);
         }
@@ -122,6 +116,18 @@ public class LinksService {
         linksRepository.save(links);
 
         return RsData.of("S-1", "url저장 완료", links);
+    }
+
+    private String checkRealImageUrl(String imageUrl) {
+        if(!imageUrl.contains("[image alt attribute]")){
+            return null;
+        }else {
+            String realImage[] = imageUrl.split("e]");
+            int a = realImage[1].indexOf(')');
+            String realImageUrl = realImage[1].substring(1,a);
+
+            return realImageUrl;
+        }
     }
 
     public List<Links> findAll() {

@@ -68,13 +68,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() {
-//        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-//        successHandler.setTargetUrlParameter("targetUrl");
-//        successHandler.setDefaultTargetUrl("/"); // 로그인 성공 후 이전 페이지가 없을 경우 리디렉션할 기본 경로
-//        return successHandler;
-//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

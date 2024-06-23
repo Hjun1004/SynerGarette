@@ -96,12 +96,12 @@ public class NotProd {
                 Links synergaretteAppleMusic = linksService.registrationLinks("Apple Music", "https://music.apple.com/kr/artist/%EC%8B%9C%EB%84%88%EA%B0%80%EB%A0%9B/1648659020").getData();
                 Links synergaretteGenie = linksService.registrationLinks("Genie", "https://www.genie.co.kr/detail/albumInfo?axnm=83027040").getData();
                 Links synergaretteMelon = linksService.registrationLinks("Melon", "https://www.melon.com/album/detail.htm?albumId=11073332").getData();
-                Links invisibleDiaryYoutube = linksService.registrationLinks("[Playlist] Synergarette - Invisible Diary", "https://www.youtube.com/watch?v=EFgjPMCMS6E").getData();
-                Links buyInvisibleDiary = linksService.registrationLinks("EP 'Invisible Diary' 구매하기", "https://gimbabrecords.com/product/detail.html?product_no=22408&cate_no=29&display_group=1").getData();
-                Links synergaretteInstagram = linksService.registrationLinks("[ Synergarette Instagram ]", "https://www.instagram.com/synergarette/").getData();
                 Links synergaretteYoutubeInvisibleDiary = linksService.registrationLinks("[ PV ] Synergarette - 'Invisible Diary'", "https://www.youtube.com/watch?v=AwAPR3qlOHI").getData();
-                Links synergaretteDivision = linksService.registrationLinks("Synergarette - Division ( Liveclip )", "https://www.youtube.com/watch?v=fPV5MAe5PK4").getData();
                 Links synergaretteYoutubeMain = linksService.registrationLinks("[ Synergarette Youtube ]", "https://www.youtube.com/@synergarette").getData();
+                Links invisibleDiaryYoutube = linksService.registrationLinks("[Playlist] Synergarette - Invisible Diary", "https://www.youtube.com/watch?v=EFgjPMCMS6E").getData();
+                Links synergaretteDivision = linksService.registrationLinks("Synergarette - Division ( Liveclip )", "https://www.youtube.com/watch?v=fPV5MAe5PK4").getData();
+                Links synergaretteInstagram = linksService.registrationLinks("[ Synergarette Instagram ]", "https://www.instagram.com/synergarette/").getData();
+                Links buyInvisibleDiary = linksService.registrationLinks("EP 'Invisible Diary' 구매하기", "https://gimbabrecords.com/product/detail.html?product_no=22408&cate_no=29&display_group=1").getData();
 
 
                 //////////////////////////////////

@@ -46,9 +46,6 @@ public class OrderService {
                 .stream()
                 .map(CartItem::getGoodsItem)
                 .forEach(goodsItem -> orderItemList.add(new OrderItem(goodsItem)));
-        // 장바구니 상품들을 가져와서 order 아이템 리스트에 담는다.
-// 이 부분 장바구니 삭제 안되게 하려고 잠시 3원 5일에 주석 처리 함
-//        cartItemList.stream().forEach(cartItem -> cartItemService.deleteCartItem(cartItem));
 
         return create(buyer, orderItemList);
     }
@@ -165,16 +162,11 @@ public class OrderService {
                 .map(OrderItem::getGoods)
                 .forEach(goods -> cartItemList.add(cartItemService.findCartItemByGoodsIdAndMemberId(goods.getId(), buyer.getId())));
 
-
-        System.out.println("카트 아이템 찾아옴?");
-
         cartItemList.stream().map(CartItem::getGoodsItem).forEach(goods -> System.out.println(goods.getGoodsName()));
 
         for(CartItem nowCartItem : cartItemList){
             cartItemService.deleteCartItem(nowCartItem);
         }
-
-//        cartItemList.stream().forEach(cartItem -> cartItemService.deleteCartItem(cartItem));
 
 
         return RsData.of("S-1", "삭제했습니다.");
@@ -188,6 +180,8 @@ public class OrderService {
         }
 
         order.setOrderDeliveryAddress(deliveryAddress);
+
+        //디버깅용 로그
         if(order.getOrderDeliveryAddress() != null){
             System.out.println("주문건에 배송지가 지정되었어요!!!!!!");
         }

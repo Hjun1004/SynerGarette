@@ -94,19 +94,19 @@
 
 
     <script th:inline="javascript">
-    var clientKey = [[${tossPaymentConfig.testClientKey}]]
-    var tossPayments = TossPayments(clientKey)
+      var clientKey = [[${tossPaymentConfig.testClientKey}]]
+      var tossPayments = TossPayments(clientKey)
 
-    function payment(){
-      tossPayments.requestPayment("카드", {
-        amount: orderPayPrice,
-        orderId: "order__" + orderId + "__" + (Math.random() + "").substring(2),
-        orderName: orderName,
-        successUrl: baseUrlHtml + "/order/" + orderId + "/success",
-        failUrl: 'http://localhost:8080/order/orderId/fail'
-      })
-    }
-  </script>
+      function payment(){
+        tossPayments.requestPayment("카드", {
+          amount: orderPayPrice,
+          orderId: "order__" + orderId + "__" + (Math.random() + "").substring(2),
+          orderName: orderName,
+          successUrl: baseUrlHtml + "/order/" + orderId + "/success",
+          failUrl: baseUrlHtml + "/order/" + orderId + "/fail"
+        })
+      }
+    </script>
 
   </div>
 

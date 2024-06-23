@@ -38,8 +38,6 @@ public class CartItemController {
 
         List<CartItem> cartItemList = cartItemService.findCartItemsWithGoodsByMember(member.getId());
 
-//        List<CartItem> cartItemList = member.getCartItemList();
-
         model.addAttribute(cartItemList);
 
         return "usr/cartItem/cartItemList";

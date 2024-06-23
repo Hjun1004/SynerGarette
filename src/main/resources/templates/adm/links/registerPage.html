@@ -61,16 +61,6 @@
 
             <button type="submit" id="submitBtn" class="btn btn-success my-2">링크 등록</button>
 
-<!--            <div>-->
-<!--                <input type="button" id="editorGetHtml" value="HTML보기">-->
-<!--            </div>-->
-
-
-<!--            <button id="btn-join-1" class="btn btn-block btn-primary gap-1">-->
-<!--                <i class="fa-solid fa-user-plus"></i>-->
-<!--                <span>링크 등록</span>-->
-<!--            </button>-->
-
 
             <!--     ToastUI 에디터 불러오기-->
             <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -102,7 +92,6 @@
 
                                 // 3. 컨트롤러에서 전달받은 s3에 저장된 파일명
                                 const filename = await response.text();
-
 
                                 // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
                                 callback(filename, 'image alt attribute');
