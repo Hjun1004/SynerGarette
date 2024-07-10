@@ -104,16 +104,6 @@ public class NotProd {
                 Links buyInvisibleDiary = linksService.registrationLinks("EP 'Invisible Diary' 구매하기", "https://gimbabrecords.com/product/detail.html?product_no=22408&cate_no=29&display_group=1").getData();
 
 
-                //////////////////////////////////
-
-
-
-
-
-
-
-
-
 //                Links synergaretteYoutubeMusic = linksService.registrationLinks("YoutubeMusic", "https://open.spotify.com/album/2yXfT5NkxMrkLxMyU9JShx").getData();
 
 
