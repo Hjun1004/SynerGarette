@@ -30,6 +30,7 @@
   - Java 17
   - Spring Boot
   - Spring Data JPA
+  - MySQL, MariaDB
 - 프론트엔드
   - HTML
   - Java Script
@@ -39,9 +40,8 @@
   - tailwind CSS
 - 인프라
   - GitHub
-  - AWS EC2
+  - AWS EC2(Amazon Linux2)
   - AWS S3
   - Docker
   - NginX
------
-젠킨스
+  - Jenkins (자동 배포)
