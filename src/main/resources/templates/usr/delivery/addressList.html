@@ -2,15 +2,11 @@
 
 <head>
     <title>Title</title>
-
 </head>
 
 <body>
 
 <main layout:fragment="main">
-
-
-
 
     <div class="container mx-5">
 
@@ -65,12 +61,21 @@
                 var deliveryAddressId = button.closest('.card').find("input[name='nowDelivery']").val();
                 console.log(deliveryAddressId);
 
+                var token = $("meta[name='_csrf']").attr("content");
+		        var header = $("meta[name='_csrf_header']").attr("content");
+
                 var formData = "nowDelivery=" + deliveryAddressId;
 
                 $.ajax({
                     type: "POST",
                     url: "/delivery/selectAddress",
                     data: formData,
+
+                    beforeSend : function(xhr)
+                    {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                        xhr.setRequestHeader(header, token);
+                    },
+
                     success: function(response) {
                         // 성공 시 수행할 작업
                         // 현재 창 닫기
