@@ -17,6 +17,11 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -57,16 +62,20 @@ public class SecurityConfig {
                                 .logoutUrl("/usr/member/logout")
                                 .logoutSuccessUrl("/")
                 )
+
+                /*
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers(new AntPathRequestMatcher("/tui-editor/image-upload"))
-                        .disable()
-                )
-                .cors(AbstractHttpConfigurer::disable)
+//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/delivery/selectAddress"))
+//                        .disable()
+                )*/
+//                .cors(AbstractHttpConfigurer::disable)
 
         ;
 
         return http.build();
     }
+
 
 
     @Bean

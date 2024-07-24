@@ -109,10 +109,18 @@
                                 const formData = new FormData();
                                 formData.append('image', blob);
 
+                                const header = document.querySelector('meta[name="_csrf_header"]').content;
+                                const token = document.querySelector('meta[name="_csrf"]').content;
+
                                 // 2. FileApiController - uploadEditorImage 메서드 호출
                                 const response = await fetch('/tui-editor/image-upload', {
                                     method : 'POST',
                                     body : formData,
+                                    headers: {
+                                        'header': header,
+                                        'X-CSRF-Token': token
+                                        // 바로 X-CSRF-Token에 값을 주는 법!
+                                    }
                                 });
 
                                 // 3. 컨트롤러에서 전달받은 s3에 저장된 파일명
