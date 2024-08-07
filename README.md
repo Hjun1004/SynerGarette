@@ -38,6 +38,7 @@
   - CSS
   - react
   - tailwind CSS
+  - Node.js
 - 인프라
   - GitHub
   - AWS EC2(Amazon Linux2)
