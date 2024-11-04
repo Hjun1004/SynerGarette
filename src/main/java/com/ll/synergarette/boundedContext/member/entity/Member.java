@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.internal.util.stereotypes.Lazy;
@@ -38,6 +39,7 @@ public class Member {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     @JoinColumn(name="my_page_id")
     private MyPage myPage;
@@ -54,8 +56,8 @@ public class Member {
     private String nickname;
 
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.EXTRA)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE,  orphanRemoval = true)
+//    @LazyCollection(LazyCollectionOption.EXTRA)
     List<DeliveryAddress> deliveryAddressesList = new ArrayList<>();
 
     @Column(unique = true) // email 중복 안됨

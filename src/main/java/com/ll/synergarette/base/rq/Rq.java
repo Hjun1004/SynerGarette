@@ -9,6 +9,7 @@ import com.ll.synergarette.standard.util.Ut;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,14 +17,17 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+@Slf4j
 @Component
 @RequestScope
+//@SessionScope
 public class Rq {
 
 
@@ -89,10 +93,26 @@ public class Rq {
             return null;
         }
 
+
+        Member sessionMember = (Member) session.getAttribute("member");
+        if (sessionMember != null) {
+            System.out.println("세션에 member 존재해요!");
+            // 세션에 member가 존재하면 그대로 반환
+            return sessionMember;
+        }
+
         // 데이터가 없는지 체크
         if (member == null) {
             member = memberService.findByUsername(user.getUsername()).orElseThrow();
+
+            System.out.println("일단 세션에 없어서 먼저 조회했어요!!");
+
+            session.setAttribute("member", member);
+//            log.info("Loading user by username: {}", member.getUsername());
         }
+
+        System.out.println("지금은 RQ에서 받아오는 member : " + member.getUsername());;
+
 
         return member;
     }

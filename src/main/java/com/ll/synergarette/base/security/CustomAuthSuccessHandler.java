@@ -1,5 +1,7 @@
 package com.ll.synergarette.base.security;
 
+import com.ll.synergarette.boundedContext.member.entity.Member;
+import com.ll.synergarette.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -12,15 +14,23 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Component
 public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+
+    /*
+    private final MemberService memberService;
+
+    public CustomAuthSuccessHandler(MemberService memberService) {
+        this.memberService = memberService;
+    }*/
+
     private final RequestCache requestCache = new HttpSessionRequestCache();
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -29,6 +39,22 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         clearSession(request);
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+        /*
+        // 인증된 사용자의 username을 가져옴
+        String username = authentication.getName();
+
+
+        String username = (String) request.getSession().getAttribute("username");
+
+        logger.info("username = " + username);
+
+        // Member 객체를 조회
+        Member member = memberService.findByUsername(username).orElseThrow();
+
+        // 세션에 Member 객체를 저장
+        request.getSession().setAttribute("member", member);*/
+
 
         /**
          * prevPage가 존재하는 경우 = 사용자가 직접 /usr/member/login 경로로 로그인 요청

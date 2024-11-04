@@ -35,6 +35,8 @@ public class SecurityConfig {
 
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
+    private final CustomAuthSuccessHandler customAuthSuccessHandler;
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -51,6 +53,7 @@ public class SecurityConfig {
                                 .loginPage("/usr/member/login")
 //                                .loginProcessingUrl("/usr/member/login")
                                 .successHandler(authenticationSuccessHandler) // 꼭 추가해주세요!
+//                                .successHandler(customAuthSuccessHandler)
                 )
                 .oauth2Login(
                         oauth2Login -> oauth2Login

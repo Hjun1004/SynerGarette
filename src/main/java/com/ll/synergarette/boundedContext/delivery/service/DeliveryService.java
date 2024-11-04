@@ -5,6 +5,7 @@ import com.ll.synergarette.boundedContext.delivery.entity.DeliveryForm;
 import com.ll.synergarette.boundedContext.delivery.repository.DeliveryRepository;
 import com.ll.synergarette.boundedContext.member.entity.Member;
 import com.ll.synergarette.boundedContext.mypage.entity.MyPage;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class DeliveryService {
                 .build();
 
         deliveryRepository.save(deliveryAddress);
+
 
         return deliveryAddress;
     }

@@ -29,10 +29,10 @@ public class MyPage {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private DeliveryAddress deliveryAddress;
 
     public boolean isEmpty(){
@@ -40,9 +40,6 @@ public class MyPage {
 
         return false;
     }
-
-
-
 
 
 }
