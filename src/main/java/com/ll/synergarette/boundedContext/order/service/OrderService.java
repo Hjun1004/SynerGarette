@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -157,10 +158,23 @@ public class OrderService {
 
         List<CartItem> cartItemList = new ArrayList<>();
 
+        /*
         orderItemList
                 .stream()
                 .map(OrderItem::getGoods)
                 .forEach(goods -> cartItemList.add(cartItemService.findCartItemByGoodsIdAndMemberId(goods.getId(), buyer.getId())));
+         */
+
+        for (OrderItem orderItem : orderItemList) {
+            Goods goods = orderItem.getGoods();
+            CartItem cartItem = cartItemService.findCartItemByGoodsIdAndMemberId(goods.getId(), buyer.getId());
+
+            if (cartItem == null) {
+                return RsData.of("S-2", "단일 상품 결제입니다.");
+            }
+
+            cartItemList.add(cartItem);
+        }
 
         cartItemList.stream().map(CartItem::getGoodsItem).forEach(goods -> System.out.println(goods.getGoodsName()));
 
@@ -168,13 +182,15 @@ public class OrderService {
             cartItemService.deleteCartItem(nowCartItem);
         }
 
-
         return RsData.of("S-1", "삭제했습니다.");
     }
 
 
     @Transactional
     public RsData addDeliveryAddressForOrder(Member actor, Order order, DeliveryAddress deliveryAddress) {
+
+        System.out.println("deliveryAddress의 주소는 :" + deliveryAddress.getAddress());
+
         if(!actor.equals(deliveryAddress.getMember())){
             return RsData.of("F-1", "주문속의 계정과 결제의 계정이 다릅니다.");
         }

@@ -96,7 +96,6 @@ public class Rq {
 
         Member sessionMember = (Member) session.getAttribute("member");
         if (sessionMember != null) {
-            System.out.println("세션에 member 존재해요!");
             // 세션에 member가 존재하면 그대로 반환
             return sessionMember;
         }
@@ -105,13 +104,27 @@ public class Rq {
         if (member == null) {
             member = memberService.findByUsername(user.getUsername()).orElseThrow();
 
-            System.out.println("일단 세션에 없어서 먼저 조회했어요!!");
+            session.setAttribute("member", member);
+        }
+
+
+
+        return member;
+    }
+
+    public Member getMemberPersistenceContext(){
+        if (isLogout()) {
+            return null;
+        }
+
+        if (member == null) {
+            member = memberService.findByUsername(user.getUsername()).orElseThrow();
+
 
             session.setAttribute("member", member);
 //            log.info("Loading user by username: {}", member.getUsername());
         }
 
-        System.out.println("지금은 RQ에서 받아오는 member : " + member.getUsername());;
 
 
         return member;

@@ -80,7 +80,10 @@ public class OrderController {
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated")
     public String create(){
-        Member member = rq.getMember();
+//        Member member = rq.getMember();
+
+        Member member = rq.getMemberPersistenceContext();
+
         RsData<Order> rsOrder = orderService.createFromCart(member);
 
         if(rsOrder.isFail()){
@@ -239,8 +242,6 @@ public class OrderController {
 
             RsData deleteCartItem = orderService.deleteCartItem(order, rq.getMember());
 
-            // 디버깅용 로그
-            System.out.println("setPaymentDone() called");
 
             return rq.redirectWithMsg(
                     "/order/complete/%d".formatted(order.getId()),

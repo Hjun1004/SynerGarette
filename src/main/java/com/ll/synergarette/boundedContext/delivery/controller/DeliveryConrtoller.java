@@ -116,7 +116,8 @@ public class DeliveryConrtoller {
 
         DeliveryAddress deliveryAddress = deliveryService.findById(nowDeliveryId).orElse(null);
 
-        Member member = rq.getMember();
+//        Member member = rq.getMember();
+        Member member = rq.getMemberPersistenceContext();
 
         MyPage myPage = myPageService.setNowAddress(member, deliveryAddress).getData();
 
